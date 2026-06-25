@@ -1,7 +1,7 @@
 
 
-identifier: mcxn947_mag_card
-name: MCXN947-mag-card 
+identifier: mcxn947_science_card
+name: MCXN947-science-card
 type: mcu
 arch: arm
 ram: 320
@@ -23,4 +23,4 @@ supported:
   - rtc
   - sdhc
   - watchdog
-vendor: PSAS
+vendor: ESI

@@ -1,5 +1,0 @@
-board:
-  name: mcxn947_mag_card
-  vendor: PSAS
-  socs:
-    - name: mcxn947

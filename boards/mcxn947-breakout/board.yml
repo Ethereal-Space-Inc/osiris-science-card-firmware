@@ -1,5 +1,0 @@
-board:
-  name: mcxn947_breakoutcard
-  vendor: nxp
-  socs:
-    - name: mcxn947

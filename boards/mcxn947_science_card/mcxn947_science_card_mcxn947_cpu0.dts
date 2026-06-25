@@ -1,0 +1,10 @@
+
+/dts-v1/;
+
+#include "mcxn947_science_card_mcxn947_cpu0.dtsi"
+#include "mcxn947_science_card-pinctrl.dtsi"
+
+/ {
+	model = "NXP MCXN947 science card";
+	compatible = "nxp,mcxn947", "nxp,mcx";
+};
