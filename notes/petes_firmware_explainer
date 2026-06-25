@@ -1,0 +1,113 @@
+zephyr rtos
+Kernel
+threads
+interupts, mutexes, semaphors, events. 
+Device driver model???
+Memory mangagment
+
+OS services:
+Connectivity
+logging
+storing
+- don't want hardcoded constants in the code
+  - use settings that go into flash memory, keeps each physical item together.
+There is sensing architecture (2 versions, old slow, new RT IO thats newer.)
+- Not forced to use some mechanisms
+shell
+- Can be used for interactive calibration
+- allow user to explore whats going on in the system
+
+Zephyr hardwaer support;
+has driver sthat are generic, then drivers that are ustomized (foss) for specificthings
+SoC HALs??
+Device trees help the software understand what hardware is connected where, without
+just hardcoding.
+- Don't have to touch the software, just change the device tree.
+Zephyr RTOS releases
+main branch is not ideal for multi developer projects
+breaks because its not gone through thurogh testing.
+Stable branch is supported for ~a year
+good for if you don't want to change
+**= PSAS USES STABLE RELEASES *==
+===                           ===
+They're on 4.2, need to migrate to 4.4 because its out of date.
+
+Zephyr Build and configuration:
+Git - obvious
+West: swiss army knife,
+- git repo meta tool
+- builder
+- flasher
+- debugger
+- patcher
+Kconfig: configures a build, enable disable source code features.
+- Also good for configuring settings in your code, so you can have logging/etc disabled on flight firmware.
+Device trees:
+- In linux compiled and manipulated in ram runtime.
+- can use macros to read device tree and get information
+Build system:
+- makes the cmake configuration itself
+- Cmake/Ninja is handled itself. Don't worry about it.
+
+What is an RTOS?
+One process only (not linux)
+Partitions:
+[MCUboot]
+[Active App]
+[Previous App]
+[Storage]
+- Either bootloader or your application
+- bootloader -> Applcation (A) if bootloader picks it, Application B if ditto
+MCU boot has an old copy and a new copy
+
+Apps:
+entry point is main.c
+Threads
+- Algorithm code
+Card specific custom drivers - change these here
+Card specific board files - change these here
+- in the board folder, can have more than 1 board configs (mcxn, stm32, etc.)
+Bindings, missed the explanation. what are they?
+
+Oresat firmware evolution
+started as everything one repo
+now have common repo, references upstream zephyr thing (mcuboot hall, canopen, etctools)
+then have app repos
+west.yml tells west how 
+when you start things, west will pull in specific version of zephyr
+zephyr has its own west.yml, that gets all the dependencies for that version of zephyrs
+in common repo west yaml we can prune things so we don't get all the shit for stuff we don't need
+common west.yml lets card specific people stay away from common repos
+making contributions, shouldn't do it on the detached head state
+
+How do you get started?
+use a protocard if possible with the new debug board (v3.1) 
+
+How do you make a contribution to the product?
+west handles git but not always
+west update changes current branches to detached head
+branches are important
+west update will switch you away from your active branches
+Pull requests are required
+
+The oresat-firmware repo is localized within the ...../firmware/common folder
+
+zephyr has DT_ALIAS(val), which looks for val in the device tree.
+always call device_is_ready before using a device
+
+K_THREAD_DEFINE, create a thread, call a function with that thread
+Threads need to sleep for other threads to interacted with
+
+C Macro technique, called an XMACRO
+creates abstractt array for test points
+used to generate enumerations
+see gpio.c for cool shit that I must learn.
+
+main doesn't really do anything. Thats fine, beacuse all of the demos are independent threads.
+
+Join the zephyr discord
+
+
+
+
+
