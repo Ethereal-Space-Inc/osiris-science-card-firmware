@@ -19,7 +19,51 @@
 		};
 	};
 
-	pinmux_flexcomm4_lpuart: pinmux_flexcomm4_lpuart {
+/* SEP_COMM */
+/* Pin 20/P2_6 (RX) Pin 14/P2_0 (TX) */
+/* Does this talk to the septentrio? */
+	pinmux_flexcomm4_lpuart: pinmux_flexcomm4_lpuart { // TODO AAAAAAAAAA
+		group0 {
+			pinmux = <FC4_P0_PIO1_8>, // UNTOUCHED. FIX.
+				<FC4_P1_PIO1_9>;
+			slew-rate = "fast";
+			bias-pull-up;
+			drive-strength = "low";
+			input-enable;
+		};
+	};
+
+/* PPS */
+/* Pin 19/P2_5 (IN) Pin 15/P2_1 (OUT) */
+/* Unclear what this does, or how ot handle it. */
+	pinmux_flexcomm4_lpuart: pinmux_flexcomm4_lpuart { // TODO AAAAAAAAAA
+		group0 {
+			pinmux = <FC4_P0_PIO1_8>, // UNTOUCHED. FIX.
+				<FC4_P1_PIO1_9>;
+			slew-rate = "fast";
+			bias-pull-up;
+			drive-strength = "low";
+			input-enable;
+		};
+	};
+
+/* CDH_COMM */
+/* Pin 21/P2_7 (RX) Pin 16/P2_2 (TX) */
+/* Unclear what this does, or how ot handle it. */
+	pinmux_flexcomm4_lpuart: pinmux_flexcomm4_lpuart { // TODO AAAAAAAAAA
+		group0 {
+			pinmux = <FC4_P0_PIO1_8>, // UNTOUCHED. FIX.
+				<FC4_P1_PIO1_9>;
+			slew-rate = "fast";
+			bias-pull-up;
+			drive-strength = "low";
+			input-enable;
+		};
+	};
+
+/* Pins 1 and 2, or P1_8 and P1_9 */
+/* UART connection to the backplane. */
+	pinmux_flexcomm4_lpuart: pinmux_flexcomm4_lpuart { // Done.
 		group0 {
 			pinmux = <FC4_P0_PIO1_8>,
 				<FC4_P1_PIO1_9>;
@@ -30,15 +74,9 @@
 		};
 	};
 
-	pinmux_dac0: pinmux_dac0 {
-		group0 {
-			pinmux = <DAC0_OUT_PIO4_2>;
-			drive-strength = "low";
-			slew-rate = "fast";
-		};
-	};
-
-	pinmux_flexcan0: pinmux_flexcan0 {
+/* Pins number 3 and 4, or P1_10 and P1_11. */
+/* Connect to CAN2 on the backplane. CAN1 is unconnected. that might be an issue? */
+	pinmux_flexcan0: pinmux_flexcan0 { // Done.
 		group0 {
 			pinmux = <CAN0_TXD_PIO1_10>,
 				<CAN0_RXD_PIO1_11>;
@@ -47,57 +85,3 @@
 			input-enable;
 		};
 	};
-
-	pinmux_sctimer: pinmux_sctimer {
-		group0 {
-			pinmux = <SCT0_OUT0_PIO2_2>;
-			slew-rate = "fast";
-			drive-strength = "low";
-			input-enable;
-		};
-	};
-
-/* MT_Z_I_SENSE */
-	pinmux_lpadc0_0: pinmux_lpadc0_0 {
-			pinmux = <ADC0_A0_PIO4_0>;
-			slew-rate = "fast";
-			drive-strength = "low";
-	};
-
-/* MT_Y_I_SENSE */
-	pinmux_lpadc0_1: pinmux_lpadc0_1 {
-			pinmux = <ADC0_B0_PIO4_1>;
-			/* from unnecessary rework:
-			   pinmux = <ADC0_A1_PIO4_15>; */
-			slew-rate = "fast";
-			drive-strength = "low";
-	};
-
-/* MT_X_I_SENSE */
-	pinmux_lpadc1: pinmux_lpadc1 {
-		group0 {
-			pinmux = <ADC1_A0_PIO4_4>;
-			slew-rate = "fast";
-			drive-strength = "low";
-		};
-	};
-
-/* MT_X_PWM, MT_Y PWM */
-	pinmux_flexpwm1_pwm0: pinmux_flexpwm1_pwm0 {
-		group0 {
-			pinmux = <PWM1_B0_PIO2_7>,
-			<PWM1_A0_PIO2_6>;
-			slew-rate = "fast";
-			drive-strength = "low";
-		};
-	};
-
-/* MT_Z_PWM */
-	pinmux_flexpwm1_pwm1: pinmux_flexpwm1_pwm1 {
-		group0 {
-			pinmux = <PWM1_B1_PIO2_5>;
-			slew-rate = "fast";
-			drive-strength = "low";
-		};
-	};
-};
