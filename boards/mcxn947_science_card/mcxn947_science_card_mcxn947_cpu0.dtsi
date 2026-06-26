@@ -44,12 +44,12 @@
 		watchdog0 = &wwdt0;
 		rtc = &rtc;
 		adc0 = &lpadc0;
-		adc1 = &lpadc1;
 		i2c-0 = &flexcomm0_lpi2c0;
 		mag0 = &rm3100a;
 		mag1 = &rm3100b;
 		pwm0 = &flexpwm1_pwm0;
 		pwm1 = &flexpwm1_pwm1;
+		picozed_uart = <&flexcomm9_lpuart4>
 	};
 
 	leds {
@@ -61,14 +61,8 @@
 		};
 	};
 
-	maggpios: mag-gpios {
-		compatible = "mag-card";
-		mag-ready-gpios = <&gpio4 20 0>;	/* in */
-		n-mag-fault-gpios = <&gpio4 19 0>;	/* in */
-		n-mag-en-gpios = <&gpio4 17 0>;		/* out */
-		mt-en-gpios = <&gpio4 16 0>;		/* open drain out */
-		n-mt-en-fault-gpios = <&gpio4 13 0>;/* in */
-		n-mt-stby-rst-gpios = <&gpio4 12 0>;/* out */
+	scigpios: sci-gpios {
+		compatible = "science-card";
 		mt-z-phase-gpios = <&gpio4 7 0>;	/* out */
 		mt-y-phase-gpios = <&gpio4 6 0>;	/* out */
 		mt-x-phase-gpios = <&gpio4 5 0>;	/* out */
@@ -86,34 +80,23 @@
 	status = "okay";
 };
 
-&flexcomm0_lpi2c0 {
-	pinctrl-0 = <&pinmux_flexcomm0_lpi2c>;
-	pinctrl-names = "default";
-	clock-frequency = <I2C_BITRATE_STANDARD>;
+&flexcomm4 {
 	status = "okay";
-
-	rm3100a: rm3100@20 {
-			compatible = "pni,rm3100";
-			reg = <0x20>;
-			odr = <RM3100_DT_ODR_600>;
-			status = "okay";
-			zephyr,deferred-init;
-	};
-	rm3100b: rm3100@22 {
-			compatible = "pni,rm3100";
-			reg = <0x22>;
-			odr = <RM3100_DT_ODR_600>;
-			status = "okay";
-			zephyr,deferred-init;
-	};
 };
 
-&flexcomm4 {
+&flexcomm9 {
 	status = "okay";
 };
 
 &flexcomm4_lpuart4 {
 	current-speed = <115200>;
+	pinctrl-0 = <&pinmux_flexcomm4_lpuart>;
+	pinctrl-names = "default";
+	status = "okay";
+};
+
+&flexcomm9_lpuart4 {
+	current-speed = <2000000>;
 	pinctrl-0 = <&pinmux_flexcomm4_lpuart>;
 	pinctrl-names = "default";
 	status = "okay";
@@ -150,6 +133,7 @@
 	};
 };
 
+// figure out
 &flash {
 	partitions {
 		compatible = "fixed-partitions";
@@ -158,7 +142,7 @@
 
 		/*
 		 * Partition sizes must be aligned
-		 * to the flash memory sector size of 8KB.
+		 * to the flash memory sector size of 8KiB.
 		 */
 		boot_partition: partition@0 {
 			label = "mcuboot";
@@ -235,75 +219,17 @@
 	status = "okay";
 };
 
-&sc_timer {
-	pinctrl-0 = <&pinmux_sctimer>;
-	pinctrl-names = "default";
-	status = "disabled";
-};
-
 &enet {
 	status = "disabled";
 };
 
-&flexpwm1_pwm0 {
-	pinctrl-0 = <&pinmux_flexpwm1_pwm0>;
-	pinctrl-names = "default";
-	status = "okay";
-};
-
-&flexpwm1_pwm1 {
-	pinctrl-0 = <&pinmux_flexpwm1_pwm1>;
-	pinctrl-names = "default";
-	status = "okay";
-};
-
-&dac0 {
-	pinctrl-0 = <&pinmux_dac0>;
-	pinctrl-names = "default";
-	voltage-reference = <0>;
-	status = "okay";
-};
-
 &lpadc0 {
 	pinctrl-names = "default";
-	pinctrl-0 = <&pinmux_lpadc0_0>, <&pinmux_lpadc0_1>;
+	pinctrl-0 = <&pinmux_lpadc0_0>;
 	#address-cells = <1>;
 	#size-cells = <0>;
 	status = "okay";
-	lpadc0_0: channel@0 { /* Z */
-		reg = <0>;
-		zephyr,gain = "ADC_GAIN_1";
-		zephyr,reference = "ADC_REF_EXTERNAL0";
-		zephyr,vref-mv = <3300>;
-		zephyr,acquisition-time = <ADC_ACQ_TIME(ADC_ACQ_TIME_MICROSECONDS,2)>;
-		zephyr,resolution = <12>;
-		zephyr,oversampling = <7>;
-		zephyr,input-positive = <MCUX_LPADC_CH0A>;
-		/delete-property/ zephyr,differential;
-	};
-	lpadc0_1: channel@1 { /* Y */
-		reg = <1>;
-		zephyr,gain = "ADC_GAIN_1";
-		zephyr,reference = "ADC_REF_EXTERNAL0";
-		zephyr,vref-mv = <3300>;
-		zephyr,acquisition-time = <ADC_ACQ_TIME(ADC_ACQ_TIME_MICROSECONDS,2)>;
-		zephyr,resolution = <12>;
-		zephyr,oversampling = <7>;
-		zephyr,input-positive = <MCUX_LPADC_CH0B>;
-		/* from unnessessary rework: <MCUX_LPADC_CH1A>; */
-		/delete-property/ zephyr,differential;
-	};
-};
-
-&lpadc1 {
-	pinctrl-0 = <&pinmux_lpadc1>;
-	pinctrl-names = "default";
-
-	#address-cells = <1>;
-	#size-cells = <0>;
-	status = "okay";
-
-	lpadc1_0: channel@0 { /* X */
+	lpadc0_0: channel@0 { /* Current Draw from MAX */
 		reg = <0>;
 		zephyr,gain = "ADC_GAIN_1";
 		zephyr,reference = "ADC_REF_EXTERNAL0";
@@ -315,3 +241,4 @@
 		/delete-property/ zephyr,differential;
 	};
 };
+

@@ -19,41 +19,13 @@
 		};
 	};
 
-/* SEP_COMM */
-/* Pin 20/P2_6 (RX) Pin 14/P2_0 (TX) */
-/* Does this talk to the septentrio? */
-	pinmux_flexcomm4_lpuart: pinmux_flexcomm4_lpuart { // TODO AAAAAAAAAA
-		group0 {
-			pinmux = <FC4_P0_PIO1_8>, // UNTOUCHED. FIX.
-				<FC4_P1_PIO1_9>;
-			slew-rate = "fast";
-			bias-pull-up;
-			drive-strength = "low";
-			input-enable;
-		};
-	};
-
-/* PPS */
-/* Pin 19/P2_5 (IN) Pin 15/P2_1 (OUT) */
-/* Unclear what this does, or how ot handle it. */
-	pinmux_flexcomm4_lpuart: pinmux_flexcomm4_lpuart { // TODO AAAAAAAAAA
-		group0 {
-			pinmux = <FC4_P0_PIO1_8>, // UNTOUCHED. FIX.
-				<FC4_P1_PIO1_9>;
-			slew-rate = "fast";
-			bias-pull-up;
-			drive-strength = "low";
-			input-enable;
-		};
-	};
-
 /* CDH_COMM */
-/* Pin 21/P2_7 (RX) Pin 16/P2_2 (TX) */
-/* Unclear what this does, or how ot handle it. */
-	pinmux_flexcomm4_lpuart: pinmux_flexcomm4_lpuart { // TODO AAAAAAAAAA
+/* Pin 21/P2_7 (TX) Pin 16/P2_2 (RX) */
+/* Think this talks to  */
+	pinmux_flexcomm9_lpuart: pinmux_flexcomm9_lpuart {
 		group0 {
-			pinmux = <FC4_P0_PIO1_8>, // UNTOUCHED. FIX.
-				<FC4_P1_PIO1_9>;
+			pinmux = <FC9_P3_PIO2_2>,
+				<FC9_P5_PIO2_7>;
 			slew-rate = "fast";
 			bias-pull-up;
 			drive-strength = "low";
@@ -62,7 +34,7 @@
 	};
 
 /* Pins 1 and 2, or P1_8 and P1_9 */
-/* UART connection to the backplane. */
+/* UART connection to the backplane/debug connector. */
 	pinmux_flexcomm4_lpuart: pinmux_flexcomm4_lpuart { // Done.
 		group0 {
 			pinmux = <FC4_P0_PIO1_8>,
