@@ -49,7 +49,7 @@
 		mag1 = &rm3100b;
 		pwm0 = &flexpwm1_pwm0;
 		pwm1 = &flexpwm1_pwm1;
-		picozed_uart = <&flexcomm9_lpuart4>
+		// picozed_uart = &flexcomm9_lpuart4; // re-enable it when the cards are fixed.
 	};
 
 	leds {
@@ -84,9 +84,9 @@
 	status = "okay";
 };
 
-&flexcomm9 {
-	status = "okay";
-};
+// &flexcomm9 {
+// 	status = "okay";
+// };
 
 &flexcomm4_lpuart4 {
 	current-speed = <115200>;
@@ -95,12 +95,12 @@
 	status = "okay";
 };
 
-&flexcomm9_lpuart4 {
-	current-speed = <2000000>;
-	pinctrl-0 = <&pinmux_flexcomm4_lpuart>;
-	pinctrl-names = "default";
-	status = "okay";
-};
+// &flexcomm9_lpuart4 {
+// 	current-speed = <2000000>;
+// 	pinctrl-0 = <&pinmux_flexcomm4_lpuart>;
+// 	pinctrl-names = "default";
+// 	status = "okay";
+// };
 
 &flexcan0 {
 	pinctrl-0 = <&pinmux_flexcan0>;
