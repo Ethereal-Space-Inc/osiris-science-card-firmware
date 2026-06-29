@@ -3,50 +3,55 @@
 
 description: Oresat mag card
 
-compatible: "mag-card"
+compatible: "science-card"
 
 properties:
-  mag-ready-gpios:
+  spare-1-gpios:
     type: phandle-array
     required: true
     description: GPIO input or output.
 
-  n-mag-fault-gpios:
+  spare-2-gpios:
     type: phandle-array
     required: true
     description: GPIO input or output.
 
-  n-mag-en-gpios:
+  spare-3-gpios:
     type: phandle-array
     required: true
     description: GPIO input or output.
 
-  mt-en-gpios:
+  spare-4-gpios:
     type: phandle-array
     required: true
     description: GPIO input or output.
 
-  n-mt-en-fault-gpios:
+  spare-5-gpios:
     type: phandle-array
     required: true
     description: GPIO input or output.
 
-  n-mt-stby-rst-gpios:
+  spare-6-gpios:
     type: phandle-array
     required: true
     description: GPIO input or output.
 
-  mt-z-phase-gpios:
+  spare-7-gpios:
     type: phandle-array
     required: true
     description: GPIO input or output.
 
-  mt-y-phase-gpios:
+  ocxo-no-en-gpios:
     type: phandle-array
     required: true
     description: GPIO input or output.
 
-  mt-x-phase-gpios:
+  sep-no-en-gpios:
+    type: phandle-array
+    required: true
+    description: GPIO input or output.
+
+  pico-no-en-gpios:
     type: phandle-array
     required: true
     description: GPIO input or output.

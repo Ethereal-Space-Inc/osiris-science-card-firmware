@@ -79,7 +79,7 @@ Build again, using whatever options you need as explained in the document.
 
 # Building and flashing with bootloader
 ```
-$ west build -p -b mcxn947_mag_card/mcxn947/cpu0 --sysbuild -- -DBOARD_ROOT=$PWD
+$ west build -p -b mcxn947_science_card/mcxn947/cpu0 --sysbuild -- -DBOARD_ROOT=$PWD
 $ west flash --erase -r pyocd
 ```
 This will build two binaries: one for the bootloader, and one for the application.

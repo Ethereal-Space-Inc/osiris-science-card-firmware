@@ -1,12 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
-menu "Oresat MCXN947 Mag Card"
-
-	config DAC_INTF
-		bool "Enable DAC output."
-		select DAC
-		help
-		  Enable use of DAC.
+menu "Oresat MCXN947 Science Card"
 
 	config ADC_INTF
 		bool "Enable monitoring one or more ADC channels."
@@ -38,39 +32,11 @@ menu "Oresat MCXN947 Mag Card"
 
 	endif  # ADC_INTF
 
-config PWM_INTF
-	bool "Enable PWM output."
-	select PWM
-	help
-	  Enable use of PWMs.
-
 config BLINK
 	bool "Blink an LED"
 	default y
 	help
 	  Enable the thread which blinks an LED.
-
-config MAG
-	bool "Enable magnetometer sampling and transfer"
-	default y
-	help
-	  Enable the Magnetometer handling.
-
-config IMU
-	bool "Enable IMU sampling and transfer"
-	default y
-	help
-	  Enable the IMU handling.
-
-config MAG_TORQUERS
-	bool "Enable magetorquer control"
-	default y
-	select DAC_INTF
-	select ADC_INTF
-	select PWM_INTF
-	help
-	  Enable the driving the magnetorquers from CAN requests.
-
 
 config CAN_INTF
 	bool "Enable sending CAN packets."
@@ -112,8 +78,6 @@ config CAN_INTF
 			  is not stored in settings.
 
 	endif
-
-
 endmenu
 
 source "Kconfig.zephyr"

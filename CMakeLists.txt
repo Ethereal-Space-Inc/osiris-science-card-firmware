@@ -3,10 +3,10 @@
 cmake_minimum_required(VERSION 3.20.0)
 
 list(APPEND BOARD_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
-set(BOARD "mcxn947_mag_card/mcxn947/cpu0")
+set(BOARD "mcxn947_science_card/mcxn947/cpu0")
 
 find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
-project(oresat_mcxn947_mag)
+project(oresat_mcxn947_science)
 
 set(VERSION_MAJOR "1")
 set(VERSION_MINOR "0")
@@ -40,13 +40,8 @@ include_directories("${PROJECT_SOURCE_DIR}") # needed so c code can find this he
 target_sources(app PRIVATE src/main.c)
 
 # Compile in various demos depending on Kconfig values.
-target_sources_ifdef(CONFIG_DAC_INTF     app PRIVATE src/dac.c)
 target_sources_ifdef(CONFIG_ADC_INTF     app PRIVATE src/adc.c)
-target_sources_ifdef(CONFIG_PWM_INTF     app PRIVATE src/pwm.c)
 target_sources_ifdef(CONFIG_BLINK        app PRIVATE src/blink.c)
-target_sources_ifdef(CONFIG_MAG          app PRIVATE src/magnetometer.c)
-target_sources_ifdef(CONFIG_IMU          app PRIVATE src/imu.c)
-target_sources_ifdef(CONFIG_MAG_TORQUERS app PRIVATE src/magnetorquers.c)
 target_sources_ifdef(CONFIG_CAN_INTF     app PRIVATE src/can.c)
 target_sources_ifdef(CONFIG_CAN_INTF     app PRIVATE src/can_util.c)
 target_sources_ifdef(CONFIG_CAN_INTF     app PRIVATE objdict/CO_OD.c)
