@@ -25,11 +25,11 @@ LOG_MODULE_REGISTER(oresat_blink, LOG_LEVEL_INF);
 #define PRIORITY 7
 
 /* 1000 msec = 1 sec */
-#define LED_SLEEP_TIME_MS_SHORT   250
+#define LED_SLEEP_TIME_MS_SHORT   150
 /* 1000 msec = 1 sec */
-#define LED_SLEEP_TIME_MS_LONG   750
+#define LED_SLEEP_TIME_MS_LONG   600
 /* 1000 msec = 1 sec */
-#define LED_SLEEP_TIME_MS_BREAK   2000
+#define LED_SLEEP_TIME_MS_BREAK   1500
 
 /* The devicetree node identifier for the "led0" alias. */
 #define LED0_NODE DT_ALIAS(led0)
@@ -56,7 +56,6 @@ static int handle_blink(void)
 
 	/* Thread loop. Trying to have it SOS. Bad way to do that. Whatever. */
 	while (1) {
-		gpio_pin_toggle_dt(&led); /* Off */
 		k_msleep(LED_SLEEP_TIME_MS_BREAK);
 		gpio_pin_toggle_dt(&led); /* On: S part 1*/
 		k_msleep(LED_SLEEP_TIME_MS_SHORT);
