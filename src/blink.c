@@ -25,7 +25,11 @@ LOG_MODULE_REGISTER(oresat_blink, LOG_LEVEL_INF);
 #define PRIORITY 7
 
 /* 1000 msec = 1 sec */
-#define LED_SLEEP_TIME_MS   1000
+#define LED_SLEEP_TIME_MS_SHORT   250
+/* 1000 msec = 1 sec */
+#define LED_SLEEP_TIME_MS_LONG   750
+/* 1000 msec = 1 sec */
+#define LED_SLEEP_TIME_MS_BREAK   2000
 
 /* The devicetree node identifier for the "led0" alias. */
 #define LED0_NODE DT_ALIAS(led0)
@@ -50,11 +54,45 @@ static int handle_blink(void)
 		return ret;
 	}
 
-	/* Thread loop */
+	/* Thread loop. Trying to have it SOS. Bad way to do that. Whatever. */
 	while (1) {
-		gpio_pin_toggle_dt(&led);
-		LOG_DBG("The light is blinking!");
-		k_msleep(LED_SLEEP_TIME_MS);
+		gpio_pin_toggle_dt(&led); /* Off */
+		k_msleep(LED_SLEEP_TIME_MS_BREAK);
+		gpio_pin_toggle_dt(&led); /* On: S part 1*/
+		k_msleep(LED_SLEEP_TIME_MS_SHORT);
+		gpio_pin_toggle_dt(&led); /* Off */
+		k_msleep(LED_SLEEP_TIME_MS_SHORT);
+		gpio_pin_toggle_dt(&led); /* On: S part 2 */
+		k_msleep(LED_SLEEP_TIME_MS_SHORT);
+		gpio_pin_toggle_dt(&led); /* Off */
+		k_msleep(LED_SLEEP_TIME_MS_SHORT);
+		gpio_pin_toggle_dt(&led); /* On: S part 3 */
+		k_msleep(LED_SLEEP_TIME_MS_SHORT);
+		gpio_pin_toggle_dt(&led); /* Off */
+		k_msleep(LED_SLEEP_TIME_MS_LONG);
+		gpio_pin_toggle_dt(&led); /* On: O part 1*/
+		k_msleep(LED_SLEEP_TIME_MS_LONG);
+		gpio_pin_toggle_dt(&led); /* Off */
+		k_msleep(LED_SLEEP_TIME_MS_SHORT);
+		gpio_pin_toggle_dt(&led); /* On: O part 2*/
+		k_msleep(LED_SLEEP_TIME_MS_LONG);
+		gpio_pin_toggle_dt(&led); /* Off */
+		k_msleep(LED_SLEEP_TIME_MS_SHORT);
+		gpio_pin_toggle_dt(&led); /* On: O part 3*/
+		k_msleep(LED_SLEEP_TIME_MS_LONG);
+		gpio_pin_toggle_dt(&led); /* Off */
+		k_msleep(LED_SLEEP_TIME_MS_LONG);
+		gpio_pin_toggle_dt(&led); /* On: S part 1*/
+		k_msleep(LED_SLEEP_TIME_MS_SHORT);
+		gpio_pin_toggle_dt(&led); /* Off */
+		k_msleep(LED_SLEEP_TIME_MS_SHORT);
+		gpio_pin_toggle_dt(&led); /* On: S part 2 */
+		k_msleep(LED_SLEEP_TIME_MS_SHORT);
+		gpio_pin_toggle_dt(&led); /* Off */
+		k_msleep(LED_SLEEP_TIME_MS_SHORT);
+		gpio_pin_toggle_dt(&led); /* On: S part 3 */
+		k_msleep(LED_SLEEP_TIME_MS_SHORT);
+		gpio_pin_toggle_dt(&led); /* Off */
 	}
 	return 0;
 }
