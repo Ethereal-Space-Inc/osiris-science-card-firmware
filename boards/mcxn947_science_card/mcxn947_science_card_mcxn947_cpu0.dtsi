@@ -44,11 +44,6 @@
 		watchdog0 = &wwdt0;
 		rtc = &rtc;
 		adc0 = &lpadc0;
-		i2c-0 = &flexcomm0_lpi2c0;
-		mag0 = &rm3100a;
-		mag1 = &rm3100b;
-		pwm0 = &flexpwm1_pwm0;
-		pwm1 = &flexpwm1_pwm1;
 		// picozed_uart = &flexcomm9_lpuart4; // re-enable it when the cards are fixed.
 	};
 
@@ -63,17 +58,27 @@
 
 	scigpios: sci-gpios {
 		compatible = "science-card";
-		mt-z-phase-gpios = <&gpio4 7 0>;	/* out */
-		mt-y-phase-gpios = <&gpio4 6 0>;	/* out */
-		mt-x-phase-gpios = <&gpio4 5 0>;	/* out */
+		spare-1-gpios = <&gpio3 8 0>;	/* out */
+		spare-2-gpios = <&gpio3 9 0>;	/* out */
+		spare-3-gpios = <&gpio3 10 0>;	/* out */
+		spare-4-gpios = <&gpio3 11 0>;	/* out */
+		spare-5-gpios = <&gpio3 12 0>;	/* out */
+		spare-6-gpios = <&gpio3 13 0>;	/* out */
+		spare-7-gpios = <&gpio3 14 0>;	/* out */
+		ocxo-no-en-gpios = <&gpio3 15 0>;	/* out. Set high to disable oxco */
+		sep-no-en-gpios  = <&gpio3 16 0>;	/* out. Set high to disable septentrio */
+		pico-no-en-gpios = <&gpio3 17 0>;	/* out. Set high to disable picozed */
+		// ocxo-no-en-gpios = <&gpio3 15 GPIO_ACTIVE_HIGH>;	/* out. Set high to disable oxco */ // Use these once we have real hardware to test with.
+		// sep-no-en-gpios  = <&gpio3 16 GPIO_ACTIVE_HIGH>;	/* out. Set high to disable septentrio */
+		// pico-no-en-gpios = <&gpio3 17 GPIO_ACTIVE_HIGH>;	/* out. Set high to disable picozed */
 	};
 
-	zephyr,user {
-		dac0 = <&dac0>;
-		dac-channel-id = <0>;
-		dac-resolution = <12>;
-		status = "okay";
-	};
+	// zephyr,user {
+	// 	dac0 = <&dac0>;
+	// 	dac-channel-id = <0>;
+	// 	dac-resolution = <12>;
+	// 	status = "okay";
+	// };
 };
 
 &flexcomm0 {
@@ -225,7 +230,7 @@
 
 &lpadc0 {
 	pinctrl-names = "default";
-	pinctrl-0 = <&pinmux_lpadc0_0>;
+	pinctrl-0 = <&pinmux_lpadc0>;
 	#address-cells = <1>;
 	#size-cells = <0>;
 	status = "okay";

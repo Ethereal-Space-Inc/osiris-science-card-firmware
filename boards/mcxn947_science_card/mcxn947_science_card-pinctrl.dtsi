@@ -7,31 +7,19 @@
 #include <nxp/mcx/MCXN947VNL-pinctrl.h>
 
 &pinctrl {
-	pinmux_flexcomm0_lpi2c: pinmux_flexcomm0_lpi2c {
-		group0 {
-			pinmux = <FC0_P0_PIO0_16>,
-				<FC0_P1_PIO0_17>;
-			slew-rate = "fast";
-			drive-strength = "low";
-			input-enable;
-			bias-pull-up;
-			drive-open-drain;
-		};
-	};
-
 /* CDH_COMM */
 /* Pin 21/P2_7 (TX) Pin 16/P2_2 (RX) */
 /* Think this talks to  */
-	pinmux_flexcomm9_lpuart: pinmux_flexcomm9_lpuart {
-		group0 {
-			pinmux = <FC9_P3_PIO2_2>,
-				<FC9_P5_PIO2_7>;
-			slew-rate = "fast";
-			bias-pull-up;
-			drive-strength = "low";
-			input-enable;
-		};
-	};
+	// pinmux_flexcomm9_lpuart: pinmux_flexcomm9_lpuart {
+	// 	group0 {
+	// 		pinmux = <FC9_P3_PIO2_2>,
+	// 			<FC9_P5_PIO2_7>;
+	// 		slew-rate = "fast";
+	// 		bias-pull-up;
+	// 		drive-strength = "low";
+	// 		input-enable;
+	// 	};
+	// };
 
 /* Pins 1 and 2, or P1_8 and P1_9 */
 /* UART connection to the backplane/debug connector. */
@@ -57,3 +45,12 @@
 			input-enable;
 		};
 	};
+
+	pinmux_lpadc0: pinmux_lpadc0 {
+		group0 {
+			pinmux = <ADC0_A0_PIO4_0>;
+			slew-rate = "fast";
+			drive-strength = "low";
+		};
+	};
+};
