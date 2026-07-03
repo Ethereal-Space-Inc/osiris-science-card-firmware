@@ -15,7 +15,7 @@
         <ProfileTechnology>CANopen</ProfileTechnology>
       </ISO15745Reference>
     </ProfileHeader>
-    <ProfileBody xmlns:q1="http://www.canopen.org/xml/1.1" xsi:type="q1:ProfileBody_Device_CANopen" formatName="CANopen" formatVersion="1.0" fileName="osiris_science_card.xdd" fileCreator="" fileCreationDate="2026-06-30" fileCreationTime="19:06:00.0000000-06:00" fileModifiedBy="" fileModificationDate="2026-06-30" fileModificationTime="14:41:26.4421000-06:00" fileVersion="" supportedLanguages="en" xmlns="">
+    <ProfileBody xmlns:q1="http://www.canopen.org/xml/1.1" xsi:type="q1:ProfileBody_Device_CANopen" formatName="CANopen" formatVersion="1.0" fileName="_osiris_science_card.xdd" fileCreator="" fileCreationDate="2026-06-30" fileCreationTime="19:06:00.0000000-06:00" fileModifiedBy="" fileModificationDate="2026-07-01" fileModificationTime="14:14:28.5825149-06:00" fileVersion="" supportedLanguages="en" xmlns="">
       <q1:DeviceIdentity>
         <q1:vendorName>PSAS</q1:vendorName>
         <q1:vendorID>0</q1:vendorID>
@@ -321,7 +321,6 @@
                 <maxValue value="4294967295" />
               </q1:range>
             </q1:allowedValues>
-            <q1:property name="CO_countLabel" value="NMT" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_OBJ_1001">
             <label lang="en">Error register</label>
@@ -333,7 +332,6 @@
                 <maxValue value="255" />
               </q1:range>
             </q1:allowedValues>
-            <q1:property name="CO_countLabel" value="EM" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_OBJ_1003">
             <label lang="en">Pre-defined error field</label>
@@ -442,7 +440,6 @@
                 <maxValue value="4294967295" />
               </q1:range>
             </q1:allowedValues>
-            <q1:property name="CO_countLabel" value="SYNC" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_OBJ_1006" access="readWrite">
             <label lang="en">Communication Cycle Period</label>
@@ -454,7 +451,6 @@
                 <maxValue value="4294967295" />
               </q1:range>
             </q1:allowedValues>
-            <q1:property name="CO_countLabel" value="SYNC_PROD" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_OBJ_1007" access="readWrite">
             <label lang="en">Synchronous window length</label>
@@ -471,7 +467,6 @@
                 <maxValue value="4294967295" />
               </q1:range>
             </q1:allowedValues>
-            <q1:property name="CO_countLabel" value="EM_PROD" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_OBJ_1015" access="readWrite">
             <label lang="en">Inhibit time EMCY</label>
@@ -487,7 +482,7 @@
           <q1:parameter uniqueID="UID_OBJ_1016">
             <label lang="en">Consumer heartbeat time</label>
             <q1:dataTypeIDRef uniqueIDRef="UID_ARR_1016" />
-            <q1:property name="CO_countLabel" value="HB_CONS" />
+            <q1:property name="CO_storageGroup" value="PERSIST_COMM" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_101600" access="readWrite">
             <label lang="en">highest_index_supported</label>
@@ -509,7 +504,6 @@
                 <maxValue value="65535" />
               </q1:range>
             </q1:allowedValues>
-            <q1:property name="CO_countLabel" value="HB_PROD" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_OBJ_1018">
             <label lang="en">identity</label>
@@ -572,6 +566,7 @@
           <q1:parameter uniqueID="UID_OBJ_1029">
             <label lang="en">Error behavior</label>
             <q1:dataTypeIDRef uniqueIDRef="UID_ARR_1029" />
+            <q1:property name="CO_storageGroup" value="PERSIST_COMM" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_102900" access="const">
             <label lang="en">highest_index_supported</label>
@@ -586,7 +581,6 @@
           <q1:parameter uniqueID="UID_OBJ_1200">
             <label lang="en">SDO server parameter</label>
             <q1:dataTypeIDRef uniqueIDRef="UID_REC_1200" />
-            <q1:property name="CO_countLabel" value="SDO_SRV" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_120000" access="const">
             <label lang="en">highest_index_supported</label>
@@ -629,7 +623,7 @@
           <q1:parameter uniqueID="UID_OBJ_1400">
             <label lang="en">RPDOCommunicationParameter</label>
             <q1:dataTypeIDRef uniqueIDRef="UID_REC_1400" />
-            <q1:property name="CO_countLabel" value="RPDO" />
+            <q1:property name="CO_storageGroup" value="PERSIST_COMM" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_140000" access="const">
             <label lang="en">highest_index_supported</label>
@@ -654,6 +648,7 @@
           <q1:parameter uniqueID="UID_OBJ_1600">
             <label lang="en">RPDOMappingParameter</label>
             <q1:dataTypeIDRef uniqueIDRef="UID_REC_1600" />
+            <q1:property name="CO_storageGroup" value="PERSIST_COMM" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_160000" access="const">
             <label lang="en">highest_index_supported</label>
@@ -703,7 +698,7 @@
           <q1:parameter uniqueID="UID_OBJ_1800">
             <label lang="en">TPDOCommunicationParameter</label>
             <q1:dataTypeIDRef uniqueIDRef="UID_REC_1800" />
-            <q1:property name="CO_countLabel" value="TPDO" />
+            <q1:property name="CO_storageGroup" value="PERSIST_COMM" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_180000" access="const">
             <label lang="en">highest_index_supported</label>
@@ -743,7 +738,7 @@
           <q1:parameter uniqueID="UID_OBJ_1801">
             <label lang="en">TPDOCommunicationParameter</label>
             <q1:dataTypeIDRef uniqueIDRef="UID_REC_1801" />
-            <q1:property name="CO_countLabel" value="TPDO" />
+            <q1:property name="CO_storageGroup" value="PERSIST_COMM" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_180100" access="const">
             <label lang="en">highest_index_supported</label>
@@ -783,6 +778,7 @@
           <q1:parameter uniqueID="UID_OBJ_1A00">
             <label lang="en">TPDOMappingParameter</label>
             <q1:dataTypeIDRef uniqueIDRef="UID_REC_1A00" />
+            <q1:property name="CO_storageGroup" value="PERSIST_COMM" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_1A0000" access="const">
             <label lang="en">highest_index_supported</label>
@@ -832,6 +828,7 @@
           <q1:parameter uniqueID="UID_OBJ_1A01">
             <label lang="en">TPDOMappingParameter</label>
             <q1:dataTypeIDRef uniqueIDRef="UID_REC_1A01" />
+            <q1:property name="CO_storageGroup" value="PERSIST_COMM" />
           </q1:parameter>
           <q1:parameter uniqueID="UID_SUB_1A0100" access="const">
             <label lang="en">highest_index_supported</label>
@@ -959,14 +956,13 @@
           <q1:parameter uniqueID="UID_OBJ_2010" access="readWrite">
             <label lang="en">scet</label>
             <ULINT />
-            <q1:defaultValue value="0x00" />
+            <q1:defaultValue value="0x00000000" />
             <q1:allowedValues>
               <q1:range>
                 <minValue value="0" />
                 <maxValue value="18446744073709551615" />
               </q1:range>
             </q1:allowedValues>
-            <q1:property name="CO_countLabel" value="Add..." />
           </q1:parameter>
           <q1:parameter uniqueID="UID_OBJ_2011" access="readWrite">
             <label lang="en">utc</label>
@@ -1172,7 +1168,7 @@
               </q1:range>
             </q1:allowedValues>
           </q1:parameter>
-          <q1:parameter uniqueID="UID_OBJ_4002" access="write">
+          <q1:parameter uniqueID="UID_OBJ_4002" access="readWrite">
             <label lang="en">uart_ready</label>
             <SINT />
             <q1:defaultValue value="0x00" />
@@ -1200,7 +1196,7 @@
         <ProfileTechnology>CANopen</ProfileTechnology>
       </ISO15745Reference>
     </ProfileHeader>
-    <ProfileBody xmlns:q2="http://www.canopen.org/xml/1.1" xsi:type="q2:ProfileBody_CommunicationNetwork_CANopen" formatName="CANopen" formatVersion="1.0" fileName="osiris_science_card.xdd" fileCreator="" fileCreationDate="2026-06-30" fileCreationTime="19:06:00.0000000-06:00" fileModificationDate="2026-06-30" fileModificationTime="14:41:26.4421000-06:00" fileVersion="" supportedLanguages="en" xmlns="">
+    <ProfileBody xmlns:q2="http://www.canopen.org/xml/1.1" xsi:type="q2:ProfileBody_CommunicationNetwork_CANopen" formatName="CANopen" formatVersion="1.0" fileName="_osiris_science_card.xdd" fileCreator="" fileCreationDate="2026-06-30" fileCreationTime="19:06:00.0000000-06:00" fileModificationDate="2026-07-01" fileModificationTime="14:14:28.5825149-06:00" fileVersion="" supportedLanguages="en" xmlns="">
       <ApplicationLayers>
         <q2:CANopenObjectList>
           <CANopenObject index="1000" name="device_type" objectType="7" PDOmapping="optional" uniqueIDRef="UID_OBJ_1000" />
@@ -1318,7 +1314,7 @@
             <CANopenSubObject subIndex="01" name="id_1" objectType="7" PDOmapping="optional" uniqueIDRef="UID_SUB_1F5701" />
           </CANopenObject>
           <CANopenObject index="1F80" name="NMTStartup" objectType="7" PDOmapping="no" uniqueIDRef="UID_OBJ_1F80" />
-          <CANopenObject index="2010" name="scet" objectType="7" PDOmapping="optional" uniqueIDRef="UID_OBJ_2010" />
+          <CANopenObject index="2010" name="scet" objectType="7" PDOmapping="RPDO" uniqueIDRef="UID_OBJ_2010" />
           <CANopenObject index="2011" name="utc" objectType="7" PDOmapping="optional" uniqueIDRef="UID_OBJ_2011" />
           <CANopenObject index="2100" name="Error Status Bits" objectType="7" PDOmapping="no" uniqueIDRef="UID_OBJ_2100" />
           <CANopenObject index="3000" name="satellite_id" objectType="7" PDOmapping="optional" uniqueIDRef="UID_OBJ_3000" />

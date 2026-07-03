@@ -35,7 +35,7 @@
 
    typedef domain_t     DOMAIN;
 
-#ifndef timeOfDay_t
+   #ifndef timeOfDay_t
     typedef union {
         unsigned long long ullValue;
         struct {
@@ -415,16 +415,10 @@ struct sCO_OD_RAM{
 /*1007      */ UNSIGNED32     synchronousWindowLength;
 /*1014      */ UNSIGNED32     cob_id_emergency_message;
 /*1015      */ UNSIGNED16     inhibitTimeEMCY;
-/*1016      */ UNSIGNED32      consumerHeartbeatTime[1];
 /*1017      */ UNSIGNED16     producerHeartbeatTime;
 /*1018      */ OD_identity_t   identity;
 /*1019      */ UNSIGNED8      synchronousCounterOverflowValue;
-/*1029      */ UNSIGNED8       errorBehavior[1];
 /*1200      */ OD_SDOServerParameter_t SDOServerParameter[1];
-/*1400      */ OD_RPDOCommunicationParameter_t RPDOCommunicationParameter[1];
-/*1600      */ OD_RPDOMappingParameter_t RPDOMappingParameter[1];
-/*1800      */ OD_TPDOCommunicationParameter_t TPDOCommunicationParameter[2];
-/*1A00      */ OD_TPDOMappingParameter_t TPDOMappingParameter[2];
 /*1F50      */ DOMAIN          program_data[1];
 /*1F51      */ UNSIGNED8       program_control[1];
 /*1F56      */ UNSIGNED32      program_software_identification[1];
@@ -461,12 +455,28 @@ struct sCO_OD_EEPROM{
                UNSIGNED32     LastWord;
 };
 
+/***** Structure for PERSIST_COMM variables ********************************************/
+struct sCO_OD_PERSIST_COMM{
+               UNSIGNED32     FirstWord;
+
+/*1016      */ UNSIGNED32      consumerHeartbeatTime[1];
+/*1029      */ UNSIGNED8       errorBehavior[1];
+/*1400      */ OD_RPDOCommunicationParameter_t RPDOCommunicationParameter[1];
+/*1600      */ OD_RPDOMappingParameter_t RPDOMappingParameter[1];
+/*1800      */ OD_TPDOCommunicationParameter_t TPDOCommunicationParameter[2];
+/*1A00      */ OD_TPDOMappingParameter_t TPDOMappingParameter[2];
+
+               UNSIGNED32     LastWord;
+};
+
 /***** Declaration of Object Dictionary variables *****************************/
 extern struct sCO_OD_RAM CO_OD_RAM;
 
 extern struct sCO_OD_ROM CO_OD_ROM;
 
 extern struct sCO_OD_EEPROM CO_OD_EEPROM;
+
+extern struct sCO_OD_PERSIST_COMM CO_OD_PERSIST_COMM;
 
 /*******************************************************************************
    ALIASES FOR OBJECT DICTIONARY VARIABLES
@@ -514,7 +524,7 @@ extern struct sCO_OD_EEPROM CO_OD_EEPROM;
 
 /*1016, Data Type: UNSIGNED32, Array[1] */
         #define OD_consumerHeartbeatTime_idx                        0x1016
-        #define OD_consumerHeartbeatTime                            CO_OD_RAM.consumerHeartbeatTime
+        #define OD_consumerHeartbeatTime                            CO_OD_PERSIST_COMM.consumerHeartbeatTime
         #define ODL_consumerHeartbeatTime_arrayLength               1
         #define ODA_consumerHeartbeatTime_consumerHeartbeatTime     0
 
@@ -532,7 +542,7 @@ extern struct sCO_OD_EEPROM CO_OD_EEPROM;
 
 /*1029, Data Type: UNSIGNED8, Array[1] */
         #define OD_errorBehavior_idx                                0x1029
-        #define OD_errorBehavior                                    CO_OD_RAM.errorBehavior
+        #define OD_errorBehavior                                    CO_OD_PERSIST_COMM.errorBehavior
         #define ODL_errorBehavior_arrayLength                       1
         #define ODA_errorBehavior_communicationError                0
 
@@ -542,19 +552,19 @@ extern struct sCO_OD_EEPROM CO_OD_EEPROM;
 
 /*1400, Data Type: RPDOCommunicationParameter_t */
         #define OD_RPDOCommunicationParameter_idx                   0x1400
-        #define OD_RPDOCommunicationParameter                       CO_OD_RAM.RPDOCommunicationParameter
+        #define OD_RPDOCommunicationParameter                       CO_OD_PERSIST_COMM.RPDOCommunicationParameter
 
 /*1600, Data Type: RPDOMappingParameter_t */
         #define OD_RPDOMappingParameter_idx                         0x1600
-        #define OD_RPDOMappingParameter                             CO_OD_RAM.RPDOMappingParameter
+        #define OD_RPDOMappingParameter                             CO_OD_PERSIST_COMM.RPDOMappingParameter
 
 /*1800, Data Type: TPDOCommunicationParameter_t */
         #define OD_TPDOCommunicationParameter_idx                   0x1800
-        #define OD_TPDOCommunicationParameter                       CO_OD_RAM.TPDOCommunicationParameter
+        #define OD_TPDOCommunicationParameter                       CO_OD_PERSIST_COMM.TPDOCommunicationParameter
 
 /*1A00, Data Type: TPDOMappingParameter_t */
         #define OD_TPDOMappingParameter_idx                         0x1A00
-        #define OD_TPDOMappingParameter                             CO_OD_RAM.TPDOMappingParameter
+        #define OD_TPDOMappingParameter                             CO_OD_PERSIST_COMM.TPDOMappingParameter
 
 /*1F50, Data Type: DOMAIN, Array[1] */
         #define OD_program_data_idx                                 0x1F50

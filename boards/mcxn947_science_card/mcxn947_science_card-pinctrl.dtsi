@@ -10,16 +10,16 @@
 /* CDH_COMM */
 /* Pin 21/P2_7 (TX) Pin 16/P2_2 (RX) */
 /* Think this talks to  */
-	// pinmux_flexcomm9_lpuart: pinmux_flexcomm9_lpuart {
-	// 	group0 {
-	// 		pinmux = <FC9_P3_PIO2_2>,
-	// 			<FC9_P5_PIO2_7>;
-	// 		slew-rate = "fast";
-	// 		bias-pull-up;
-	// 		drive-strength = "low";
-	// 		input-enable;
-	// 	};
-	// };
+	pinmux_flexcomm9_lpuart: pinmux_flexcomm9_lpuart {
+		group0 {
+			pinmux = <FC9_P3_PIO2_2>,
+				<FC9_P5_PIO2_7>;
+			slew-rate = "fast";
+			bias-pull-up;
+			drive-strength = "low";
+			input-enable;
+		};
+	};
 
 /* Pins 1 and 2, or P1_8 and P1_9 */
 /* UART connection to the backplane/debug connector. */

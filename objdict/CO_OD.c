@@ -39,18 +39,10 @@ struct sCO_OD_RAM CO_OD_RAM = {
 /*1007*/ 0x0000L,
 /*1014*/ 0x00F0L,
 /*1015*/ 0x00,
-/*1016*/ {0x0000L},
 /*1017*/ 0x3E8,
 /*1018*/ {0x4L, 0x0000L, 0x0000L, 0x0000L, 0x0000L},
 /*1019*/ 0x0L,
-/*1029*/ {0x0L},
 /*1200*/ {{0x3L, 0x80000000L, 0x80000000L, 0x1L}},
-/*1400*/ {{0x5L, 0x0180L, 0xFEL, 0x00}},
-/*1600*/ {{0x1L, 0x20100040L, 0x0000L, 0x0000L, 0x0000L, 0x0000L, 0x0000L, 0x0000L, 0x0000L}},
-/*1800*/ {{0x6L, 0x01F0L, 0xFEL, 0x00, 0x0L, 0x2710, 0x0L},
-/*1801*/ {0x6L, 0x02F0L, 0xFEL, 0x00, 0x0L, 0x2710, 0x0L}},
-/*1A00*/ {{0x3L, 0x40000108L, 0x40000208L, 0x40000310L, 0x0000L, 0x0000L, 0x0000L, 0x0000L, 0x0000L},
-/*1A01*/ {0x4L, 0x40010108L, 0x40010208L, 0x40010308L, 0x40020008L, 0x0000L, 0x0000L, 0x0000L, 0x0000L}},
 /*1F50*/ {0},
 /*1F51*/ {0x0L},
 /*1F56*/ {0x0000L},
@@ -90,6 +82,23 @@ struct sCO_OD_EEPROM CO_OD_EEPROM = {
 };
 
 
+/***** Definition for PERSIST_COMM variables *******************************************/
+struct sCO_OD_PERSIST_COMM CO_OD_PERSIST_COMM = {
+           CO_OD_FIRST_LAST_WORD,
+
+/*1016*/ {0x0000L},
+/*1029*/ {0x0L},
+/*1400*/ {{0x5L, 0x0180L, 0xFEL, 0x00}},
+/*1600*/ {{0x1L, 0x20100040L, 0x0000L, 0x0000L, 0x0000L, 0x0000L, 0x0000L, 0x0000L, 0x0000L}},
+/*1800*/ {{0x6L, 0x01F0L, 0xFEL, 0x00, 0x0L, 0x2710, 0x0L},
+/*1801*/ {0x6L, 0x02F0L, 0xFEL, 0x00, 0x0L, 0x2710, 0x0L}},
+/*1A00*/ {{0x3L, 0x40000108L, 0x40000208L, 0x40000310L, 0x0000L, 0x0000L, 0x0000L, 0x0000L, 0x0000L},
+/*1A01*/ {0x4L, 0x40010108L, 0x40010208L, 0x40010308L, 0x40020008L, 0x0000L, 0x0000L, 0x0000L, 0x0000L}},
+
+           CO_OD_FIRST_LAST_WORD,
+};
+
+
 
 
 /*******************************************************************************
@@ -113,66 +122,66 @@ struct sCO_OD_EEPROM CO_OD_EEPROM = {
 };
 
 /*0x1400*/ const CO_OD_entryRecord_t OD_record1400[4] = {
-           {(void*)&CO_OD_RAM.RPDOCommunicationParameter[0].highest_index_supported, 0x06, 0x1 },
-           {(void*)&CO_OD_RAM.RPDOCommunicationParameter[0].cob_id, 0x86, 0x4 },
-           {(void*)&CO_OD_RAM.RPDOCommunicationParameter[0].transmission_type, 0x06, 0x1 },
-           {(void*)&CO_OD_RAM.RPDOCommunicationParameter[0].event_timer, 0x86, 0x2 },
+           {(void*)&CO_OD_PERSIST_COMM.RPDOCommunicationParameter[0].highest_index_supported, 0x07, 0x1 },
+           {(void*)&CO_OD_PERSIST_COMM.RPDOCommunicationParameter[0].cob_id, 0x87, 0x4 },
+           {(void*)&CO_OD_PERSIST_COMM.RPDOCommunicationParameter[0].transmission_type, 0x07, 0x1 },
+           {(void*)&CO_OD_PERSIST_COMM.RPDOCommunicationParameter[0].event_timer, 0x87, 0x2 },
 };
 
 /*0x1600*/ const CO_OD_entryRecord_t OD_record1600[9] = {
-           {(void*)&CO_OD_RAM.RPDOMappingParameter[0].highest_index_supported, 0x06, 0x1 },
-           {(void*)&CO_OD_RAM.RPDOMappingParameter[0].mapping_object_1, 0x86, 0x4 },
-           {(void*)&CO_OD_RAM.RPDOMappingParameter[0].mapping_object_2, 0x8E, 0x4 },
-           {(void*)&CO_OD_RAM.RPDOMappingParameter[0].mapping_object_3, 0x8E, 0x4 },
-           {(void*)&CO_OD_RAM.RPDOMappingParameter[0].mapping_object_4, 0x8E, 0x4 },
-           {(void*)&CO_OD_RAM.RPDOMappingParameter[0].mapping_object_5, 0x8E, 0x4 },
-           {(void*)&CO_OD_RAM.RPDOMappingParameter[0].mapping_object_6, 0x8E, 0x4 },
-           {(void*)&CO_OD_RAM.RPDOMappingParameter[0].mapping_object_7, 0x8E, 0x4 },
-           {(void*)&CO_OD_RAM.RPDOMappingParameter[0].mapping_object_8, 0x8E, 0x4 },
+           {(void*)&CO_OD_PERSIST_COMM.RPDOMappingParameter[0].highest_index_supported, 0x07, 0x1 },
+           {(void*)&CO_OD_PERSIST_COMM.RPDOMappingParameter[0].mapping_object_1, 0x87, 0x4 },
+           {(void*)&CO_OD_PERSIST_COMM.RPDOMappingParameter[0].mapping_object_2, 0x8F, 0x4 },
+           {(void*)&CO_OD_PERSIST_COMM.RPDOMappingParameter[0].mapping_object_3, 0x8F, 0x4 },
+           {(void*)&CO_OD_PERSIST_COMM.RPDOMappingParameter[0].mapping_object_4, 0x8F, 0x4 },
+           {(void*)&CO_OD_PERSIST_COMM.RPDOMappingParameter[0].mapping_object_5, 0x8F, 0x4 },
+           {(void*)&CO_OD_PERSIST_COMM.RPDOMappingParameter[0].mapping_object_6, 0x8F, 0x4 },
+           {(void*)&CO_OD_PERSIST_COMM.RPDOMappingParameter[0].mapping_object_7, 0x8F, 0x4 },
+           {(void*)&CO_OD_PERSIST_COMM.RPDOMappingParameter[0].mapping_object_8, 0x8F, 0x4 },
 };
 
 /*0x1800*/ const CO_OD_entryRecord_t OD_record1800[7] = {
-           {(void*)&CO_OD_RAM.TPDOCommunicationParameter[0].highest_index_supported, 0x06, 0x1 },
-           {(void*)&CO_OD_RAM.TPDOCommunicationParameter[0].cob_id, 0x86, 0x4 },
-           {(void*)&CO_OD_RAM.TPDOCommunicationParameter[0].transmission_type, 0x06, 0x1 },
-           {(void*)&CO_OD_RAM.TPDOCommunicationParameter[0].inhibit_time, 0x86, 0x2 },
-           {(void*)&CO_OD_RAM.TPDOCommunicationParameter[0].compatibilityEntry, 0x06, 0x1 },
-           {(void*)&CO_OD_RAM.TPDOCommunicationParameter[0].event_timer, 0x8E, 0x2 },
-           {(void*)&CO_OD_RAM.TPDOCommunicationParameter[0].sync_start_value, 0x06, 0x1 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOCommunicationParameter[0].highest_index_supported, 0x07, 0x1 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOCommunicationParameter[0].cob_id, 0x87, 0x4 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOCommunicationParameter[0].transmission_type, 0x07, 0x1 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOCommunicationParameter[0].inhibit_time, 0x87, 0x2 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOCommunicationParameter[0].compatibilityEntry, 0x07, 0x1 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOCommunicationParameter[0].event_timer, 0x8F, 0x2 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOCommunicationParameter[0].sync_start_value, 0x07, 0x1 },
 };
 
 /*0x1801*/ const CO_OD_entryRecord_t OD_record1801[7] = {
-           {(void*)&CO_OD_RAM.TPDOCommunicationParameter[1].highest_index_supported, 0x06, 0x1 },
-           {(void*)&CO_OD_RAM.TPDOCommunicationParameter[1].cob_id, 0x86, 0x4 },
-           {(void*)&CO_OD_RAM.TPDOCommunicationParameter[1].transmission_type, 0x06, 0x1 },
-           {(void*)&CO_OD_RAM.TPDOCommunicationParameter[1].inhibit_time, 0x86, 0x2 },
-           {(void*)&CO_OD_RAM.TPDOCommunicationParameter[1].compatibilityEntry, 0x06, 0x1 },
-           {(void*)&CO_OD_RAM.TPDOCommunicationParameter[1].event_timer, 0x8E, 0x2 },
-           {(void*)&CO_OD_RAM.TPDOCommunicationParameter[1].sync_start_value, 0x06, 0x1 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOCommunicationParameter[1].highest_index_supported, 0x07, 0x1 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOCommunicationParameter[1].cob_id, 0x87, 0x4 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOCommunicationParameter[1].transmission_type, 0x07, 0x1 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOCommunicationParameter[1].inhibit_time, 0x87, 0x2 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOCommunicationParameter[1].compatibilityEntry, 0x07, 0x1 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOCommunicationParameter[1].event_timer, 0x8F, 0x2 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOCommunicationParameter[1].sync_start_value, 0x07, 0x1 },
 };
 
 /*0x1A00*/ const CO_OD_entryRecord_t OD_record1A00[9] = {
-           {(void*)&CO_OD_RAM.TPDOMappingParameter[0].highest_index_supported, 0x06, 0x1 },
-           {(void*)&CO_OD_RAM.TPDOMappingParameter[0].mapping_object_1, 0x86, 0x4 },
-           {(void*)&CO_OD_RAM.TPDOMappingParameter[0].mapping_object_2, 0x86, 0x4 },
-           {(void*)&CO_OD_RAM.TPDOMappingParameter[0].mapping_object_3, 0x86, 0x4 },
-           {(void*)&CO_OD_RAM.TPDOMappingParameter[0].mapping_object_4, 0x8E, 0x4 },
-           {(void*)&CO_OD_RAM.TPDOMappingParameter[0].mapping_object_5, 0x8E, 0x4 },
-           {(void*)&CO_OD_RAM.TPDOMappingParameter[0].mapping_object_6, 0x8E, 0x4 },
-           {(void*)&CO_OD_RAM.TPDOMappingParameter[0].mapping_object_7, 0x8E, 0x4 },
-           {(void*)&CO_OD_RAM.TPDOMappingParameter[0].mapping_object_8, 0x8E, 0x4 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOMappingParameter[0].highest_index_supported, 0x07, 0x1 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOMappingParameter[0].mapping_object_1, 0x87, 0x4 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOMappingParameter[0].mapping_object_2, 0x87, 0x4 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOMappingParameter[0].mapping_object_3, 0x87, 0x4 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOMappingParameter[0].mapping_object_4, 0x8F, 0x4 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOMappingParameter[0].mapping_object_5, 0x8F, 0x4 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOMappingParameter[0].mapping_object_6, 0x8F, 0x4 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOMappingParameter[0].mapping_object_7, 0x8F, 0x4 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOMappingParameter[0].mapping_object_8, 0x8F, 0x4 },
 };
 
 /*0x1A01*/ const CO_OD_entryRecord_t OD_record1A01[9] = {
-           {(void*)&CO_OD_RAM.TPDOMappingParameter[1].highest_index_supported, 0x06, 0x1 },
-           {(void*)&CO_OD_RAM.TPDOMappingParameter[1].mapping_object_1, 0x86, 0x4 },
-           {(void*)&CO_OD_RAM.TPDOMappingParameter[1].mapping_object_2, 0x86, 0x4 },
-           {(void*)&CO_OD_RAM.TPDOMappingParameter[1].mapping_object_3, 0x86, 0x4 },
-           {(void*)&CO_OD_RAM.TPDOMappingParameter[1].mapping_object_4, 0x86, 0x4 },
-           {(void*)&CO_OD_RAM.TPDOMappingParameter[1].mapping_object_5, 0x8E, 0x4 },
-           {(void*)&CO_OD_RAM.TPDOMappingParameter[1].mapping_object_6, 0x8E, 0x4 },
-           {(void*)&CO_OD_RAM.TPDOMappingParameter[1].mapping_object_7, 0x8E, 0x4 },
-           {(void*)&CO_OD_RAM.TPDOMappingParameter[1].mapping_object_8, 0x8E, 0x4 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOMappingParameter[1].highest_index_supported, 0x07, 0x1 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOMappingParameter[1].mapping_object_1, 0x87, 0x4 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOMappingParameter[1].mapping_object_2, 0x87, 0x4 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOMappingParameter[1].mapping_object_3, 0x87, 0x4 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOMappingParameter[1].mapping_object_4, 0x87, 0x4 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOMappingParameter[1].mapping_object_5, 0x8F, 0x4 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOMappingParameter[1].mapping_object_6, 0x8F, 0x4 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOMappingParameter[1].mapping_object_7, 0x8F, 0x4 },
+           {(void*)&CO_OD_PERSIST_COMM.TPDOMappingParameter[1].mapping_object_8, 0x8F, 0x4 },
 };
 
 /*0x3002*/ const CO_OD_entryRecord_t OD_record3002[4] = {
@@ -216,11 +225,11 @@ const CO_OD_entry_t CO_OD[CO_OD_NoOfElements] = {
 {0x1007, 0x00, 0x8E,  4, (void*)&CO_OD_RAM.synchronousWindowLength},
 {0x1014, 0x00, 0xBE,  4, (void*)&CO_OD_RAM.cob_id_emergency_message},
 {0x1015, 0x00, 0xBE,  2, (void*)&CO_OD_RAM.inhibitTimeEMCY},
-{0x1016, 0x01, 0x02,  0, (void*)&CO_OD_RAM.consumerHeartbeatTime[0]},
+{0x1016, 0x01, 0x03,  0, (void*)&CO_OD_PERSIST_COMM.consumerHeartbeatTime[0]},
 {0x1017, 0x00, 0xBE,  2, (void*)&CO_OD_RAM.producerHeartbeatTime},
 {0x1018, 0x04, 0x00,  0, (void*)&OD_record1018},
 {0x1019, 0x00, 0x0E,  1, (void*)&CO_OD_RAM.synchronousCounterOverflowValue},
-{0x1029, 0x01, 0x02,  0, (void*)&CO_OD_RAM.errorBehavior[0]},
+{0x1029, 0x01, 0x03,  0, (void*)&CO_OD_PERSIST_COMM.errorBehavior[0]},
 {0x1200, 0x03, 0x00,  0, (void*)&OD_record1200},
 {0x1400, 0x03, 0x00,  0, (void*)&OD_record1400},
 {0x1600, 0x08, 0x00,  0, (void*)&OD_record1600},
@@ -243,6 +252,6 @@ const CO_OD_entry_t CO_OD[CO_OD_NoOfElements] = {
 {0x3009, 0x00, 0x36,  1, (void*)&CO_OD_RAM.board_id},
 {0x4000, 0x03, 0x00,  0, (void*)&OD_record4000},
 {0x4001, 0x03, 0x00,  0, (void*)&OD_record4001},
-{0x4002, 0x00, 0x3A,  1, (void*)&CO_OD_RAM.uart_ready},
+{0x4002, 0x00, 0x3E,  1, (void*)&CO_OD_RAM.uart_ready},
 };
 // clang-format on

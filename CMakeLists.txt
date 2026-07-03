@@ -6,7 +6,7 @@ list(APPEND BOARD_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
 set(BOARD "mcxn947_science_card/mcxn947/cpu0")
 
 find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
-project(oresat_mcxn947_science)
+project(osiris_science_card)
 
 set(VERSION_MAJOR "1")
 set(VERSION_MINOR "0")

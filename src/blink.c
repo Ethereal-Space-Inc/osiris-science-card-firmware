@@ -34,6 +34,14 @@ LOG_MODULE_REGISTER(oresat_blink, LOG_LEVEL_INF);
 /* The devicetree node identifier for the "led0" alias. */
 #define LED0_NODE DT_ALIAS(led0)
 
+
+/* === GPIO data === */
+/* Move this to some osiris file later.*/
+#define BP_NODE DT_NODELABEL(scigpios)
+static const struct gpio_dt_spec spare_1 = GPIO_DT_SPEC_GET(BP_NODE, spare_1_gpios);
+static const struct gpio_dt_spec spare_2 = GPIO_DT_SPEC_GET(BP_NODE, spare_2_gpios);
+
+
 static int handle_blink(void)
 {
 	int ret;
@@ -46,6 +54,14 @@ static int handle_blink(void)
 		LOG_ERR("LED device is not ready");
 		return -1;
 	}
+	if (!device_is_ready(spare_1.port)) {
+		LOG_ERR("Bootloadin1 not ready");
+		return -1;
+	}
+	if (!device_is_ready(spare_2.port)) {
+		LOG_ERR("Bootloadin0 not ready");
+		return -1;
+	}
 
 	/* Set it up */
 	ret = gpio_pin_configure_dt(&led, GPIO_OUTPUT_ACTIVE);
@@ -53,6 +69,18 @@ static int handle_blink(void)
 		LOG_ERR("Could not configure the LED GPIO pin: %d", ret);
 		return ret;
 	}
+	ret = gpio_pin_configure_dt(&spare_1, GPIO_OUTPUT_ACTIVE);
+	if (ret < 0) {
+		LOG_ERR("Could not configure the Bootloadin1 pin: %d", ret);
+		return ret;
+	}
+	ret = gpio_pin_configure_dt(&spare_2, GPIO_OUTPUT_ACTIVE);
+	if (ret < 0) {
+		LOG_ERR("Could not configure the Bootloadin0 pin: %d", ret);
+		return ret;
+	}
+	gpio_pin_set_dt(&spare_1, true);
+	gpio_pin_set_dt(&spare_2, true);
 
 	/* Thread loop. Trying to have it SOS. Bad way to do that. Whatever. */
 	while (1) {

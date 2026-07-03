@@ -18,7 +18,7 @@
 #include <version.h>
 #include <app_version.h>
 
-LOG_MODULE_REGISTER(oresat_mcxn947_mag, CONFIG_LOG_DEFAULT_LEVEL);
+LOG_MODULE_REGISTER(osiris_science_card, CONFIG_LOG_DEFAULT_LEVEL);
 
 /** Dump Hardware Info
  *    Show the unique processor id and the reason for reset.

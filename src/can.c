@@ -138,7 +138,7 @@ static void handle_can(void *p1, void *p2, void *p3)
 			canopen_program_download_attach(CO->NMT, CO->SDO[0], CO->em);
 		}
 		CO_CANsetNormalMode(CO->CANmodule[0]);
-
+		CO->NMT->operatingState = 5;
 		LOG_INF("Waiting for CANopen requests...");
 
 		while (true) {
@@ -149,7 +149,7 @@ static void handle_can(void *p1, void *p2, void *p3)
 			timestamp = k_uptime_get();
 			if (wr_timeout_count++ >= 1000U) {
 				wr_timeout_count = 0U;
-
+				
 				/* Read inputs */
 				CO_process_RPDO(CO, syncWas);
 

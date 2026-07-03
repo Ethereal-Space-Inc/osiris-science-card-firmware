@@ -37,6 +37,7 @@
 		zephyr,shell-uart = &flexcomm4_lpuart4;
 		zephyr,canbus = &flexcan0;
 		zephyr,code-cpu1-partition = &slot1_partition;
+		uart,picozed = &flexcomm9_lpuart9;
 	};
 
 	aliases{
@@ -44,7 +45,7 @@
 		watchdog0 = &wwdt0;
 		rtc = &rtc;
 		adc0 = &lpadc0;
-		// picozed_uart = &flexcomm9_lpuart4; // re-enable it when the cards are fixed.
+		pzuart = &flexcomm9_lpuart9;
 	};
 
 	leds {
@@ -58,8 +59,8 @@
 
 	scigpios: sci-gpios {
 		compatible = "science-card";
-		spare-1-gpios = <&gpio3 8 0>;	/* out */
-		spare-2-gpios = <&gpio3 9 0>;	/* out */
+		spare_1_gpios = <&gpio3 0 GPIO_ACTIVE_HIGH>;	/* out */
+		spare_2_gpios = <&gpio3 1 GPIO_ACTIVE_HIGH>;	/* out */
 		spare-3-gpios = <&gpio3 10 0>;	/* out */
 		spare-4-gpios = <&gpio3 11 0>;	/* out */
 		spare-5-gpios = <&gpio3 12 0>;	/* out */
@@ -68,17 +69,7 @@
 		ocxo-no-en-gpios = <&gpio3 15 0>;	/* out. Set high to disable oxco */
 		sep-no-en-gpios  = <&gpio3 16 0>;	/* out. Set high to disable septentrio */
 		pico-no-en-gpios = <&gpio3 17 0>;	/* out. Set high to disable picozed */
-		// ocxo-no-en-gpios = <&gpio3 15 GPIO_ACTIVE_HIGH>;	/* out. Set high to disable oxco */ // Use these once we have real hardware to test with.
-		// sep-no-en-gpios  = <&gpio3 16 GPIO_ACTIVE_HIGH>;	/* out. Set high to disable septentrio */
-		// pico-no-en-gpios = <&gpio3 17 GPIO_ACTIVE_HIGH>;	/* out. Set high to disable picozed */
 	};
-
-	// zephyr,user {
-	// 	dac0 = <&dac0>;
-	// 	dac-channel-id = <0>;
-	// 	dac-resolution = <12>;
-	// 	status = "okay";
-	// };
 };
 
 &flexcomm0 {
@@ -89,9 +80,9 @@
 	status = "okay";
 };
 
-// &flexcomm9 {
-// 	status = "okay";
-// };
+&flexcomm9 {
+	status = "okay";
+};
 
 &flexcomm4_lpuart4 {
 	current-speed = <115200>;
@@ -100,12 +91,12 @@
 	status = "okay";
 };
 
-// &flexcomm9_lpuart4 {
-// 	current-speed = <2000000>;
-// 	pinctrl-0 = <&pinmux_flexcomm4_lpuart>;
-// 	pinctrl-names = "default";
-// 	status = "okay";
-// };
+&flexcomm9_lpuart9 {
+	current-speed = <115200>;
+	pinctrl-0 = <&pinmux_flexcomm9_lpuart>;
+	pinctrl-names = "default";
+	status = "okay";
+};
 
 &flexcan0 {
 	pinctrl-0 = <&pinmux_flexcan0>;
@@ -163,7 +154,7 @@
 			label = "image-1";
 			reg = <0x0008C000 DT_SIZE_K(464)>;
 		};
-		storage_partition: partition@fc000 {
+		storage_partition: partition@100000 {
 			label = "storage";
 			reg = <0x00100000 DT_SIZE_K(1024)>;
 		};
@@ -179,6 +170,10 @@
 };
 
 &gpio1 {
+	status = "okay";
+};
+
+&gpio3 {
 	status = "okay";
 };
 
