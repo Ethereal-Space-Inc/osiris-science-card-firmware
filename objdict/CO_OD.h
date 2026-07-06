@@ -51,10 +51,10 @@
     typedef timeOfDay_t TIME_DIFFERENCE;
 /*******************************************************************************
    FILE INFO:
-      FileName:     osiris_science_card.eds
+      FileName:     _osiris_science_card.eds
       FileVersion:  
-      CreationTime: 07:06PM
-      CreationDate: 06-30-2026
+      CreationTime: 05:07PM
+      CreationDate: 07-06-2026
       CreatedBy:    
 *******************************************************************************/
 
@@ -150,7 +150,7 @@
 /*3002      */ typedef struct {
                UNSIGNED8      highest_index_supported;
                VISIBLE_STRING hw_version[3];
-               VISIBLE_STRING configs_version[31];
+               VISIBLE_STRING configs_version[21];
                VISIBLE_STRING fw_version[5];
                }              OD_versions_t;
 /*3003      */ typedef struct {
@@ -160,18 +160,18 @@
                INTEGER8       temperature;
                UNSIGNED16     vrefint;
                }              OD_system_t;
-/*4000      */ typedef struct {
-               UNSIGNED8      highest_index_supported;
-               INTEGER8       status;
-               INTEGER8       powerup_state;
-               UNSIGNED16     current;
-               }              OD_status_t;
 /*4001      */ typedef struct {
                UNSIGNED8      highest_index_supported;
-               INTEGER8       ocxo_gpio_state;
-               INTEGER8       sep_gpio_state;
-               INTEGER8       pico_gpio_state;
-               }              OD_gpio_state_t;
+               UNSIGNED8      enabled;
+               UNSIGNED8      powerup_state;
+               UNSIGNED8      ocxo_gpio_state;
+               UNSIGNED32     ocxo_boot_timeout;
+               UNSIGNED8      sep_gpio_state;
+               UNSIGNED32     sep_boot_timeout;
+               UNSIGNED8      pico_gpio_state;
+               UNSIGNED32     pico_boot_timeout;
+               UNSIGNED8      pico_boot_mode;
+               }              OD_powerup_t;
 
 /*******************************************************************************
    TYPE DEFINITIONS FOR OBJECT DICTIONARY INDEXES
@@ -382,21 +382,22 @@
 /*4000 */
         #define OD_4000_status                                      0x4000
 
-        #define OD_4000_0_status_maxSubIndex                        0
-        #define OD_4000_1_status_status                             1
-        #define OD_4000_2_status_powerup_state                      2
-        #define OD_4000_3_status_current                            3
-
 /*4001 */
-        #define OD_4001_gpio_state                                  0x4001
+        #define OD_4001_powerup                                     0x4001
 
-        #define OD_4001_0_gpio_state_maxSubIndex                    0
-        #define OD_4001_1_gpio_state_ocxo_gpio_state                1
-        #define OD_4001_2_gpio_state_sep_gpio_state                 2
-        #define OD_4001_3_gpio_state_pico_gpio_state                3
+        #define OD_4001_0_powerup_maxSubIndex                       0
+        #define OD_4001_1_powerup_enabled                           1
+        #define OD_4001_2_powerup_powerup_state                     2
+        #define OD_4001_3_powerup_ocxo_gpio_state                   3
+        #define OD_4001_4_powerup_ocxo_boot_timeout                 4
+        #define OD_4001_5_powerup_sep_gpio_state                    5
+        #define OD_4001_6_powerup_sep_boot_timeout                  6
+        #define OD_4001_7_powerup_pico_gpio_state                   7
+        #define OD_4001_8_powerup_pico_boot_timeout                 8
+        #define OD_4001_9_powerup_pico_boot_mode                    9
 
 /*4002 */
-        #define OD_4002_uart_ready                                  0x4002
+        #define OD_4002_instrument_current                          0x4002
 
 /*******************************************************************************
    STRUCTURES FOR VARIABLES IN DIFFERENT MEMORY LOCATIONS
@@ -432,9 +433,23 @@ struct sCO_OD_RAM{
 /*3002      */ OD_versions_t   versions;
 /*3003      */ OD_system_t     system;
 /*3009      */ UNSIGNED8      board_id;
-/*4000      */ OD_status_t     status;
-/*4001      */ OD_gpio_state_t gpio_state;
-/*4002      */ INTEGER8       uart_ready;
+/*4000      */ UNSIGNED8      status;
+/*4001      */ OD_powerup_t    powerup;
+/*4002      */ UNSIGNED16     instrument_current;
+
+               UNSIGNED32     LastWord;
+};
+
+/***** Structure for PERSIST_COMM variables ********************************************/
+struct sCO_OD_PERSIST_COMM{
+               UNSIGNED32     FirstWord;
+
+/*1016      */ UNSIGNED32      consumerHeartbeatTime[1];
+/*1029      */ UNSIGNED8       errorBehavior[1];
+/*1400      */ OD_RPDOCommunicationParameter_t RPDOCommunicationParameter[1];
+/*1600      */ OD_RPDOMappingParameter_t RPDOMappingParameter[1];
+/*1800      */ OD_TPDOCommunicationParameter_t TPDOCommunicationParameter[2];
+/*1A00      */ OD_TPDOMappingParameter_t TPDOMappingParameter[2];
 
                UNSIGNED32     LastWord;
 };
@@ -455,28 +470,14 @@ struct sCO_OD_EEPROM{
                UNSIGNED32     LastWord;
 };
 
-/***** Structure for PERSIST_COMM variables ********************************************/
-struct sCO_OD_PERSIST_COMM{
-               UNSIGNED32     FirstWord;
-
-/*1016      */ UNSIGNED32      consumerHeartbeatTime[1];
-/*1029      */ UNSIGNED8       errorBehavior[1];
-/*1400      */ OD_RPDOCommunicationParameter_t RPDOCommunicationParameter[1];
-/*1600      */ OD_RPDOMappingParameter_t RPDOMappingParameter[1];
-/*1800      */ OD_TPDOCommunicationParameter_t TPDOCommunicationParameter[2];
-/*1A00      */ OD_TPDOMappingParameter_t TPDOMappingParameter[2];
-
-               UNSIGNED32     LastWord;
-};
-
 /***** Declaration of Object Dictionary variables *****************************/
 extern struct sCO_OD_RAM CO_OD_RAM;
+
+extern struct sCO_OD_PERSIST_COMM CO_OD_PERSIST_COMM;
 
 extern struct sCO_OD_ROM CO_OD_ROM;
 
 extern struct sCO_OD_EEPROM CO_OD_EEPROM;
-
-extern struct sCO_OD_PERSIST_COMM CO_OD_PERSIST_COMM;
 
 /*******************************************************************************
    ALIASES FOR OBJECT DICTIONARY VARIABLES
@@ -627,17 +628,17 @@ extern struct sCO_OD_PERSIST_COMM CO_OD_PERSIST_COMM;
         #define OD_board_id_idx                                     0x3009
         #define OD_board_id                                         CO_OD_RAM.board_id
 
-/*4000, Data Type: status_t */
+/*4000, Data Type: UNSIGNED8 */
         #define OD_status_idx                                       0x4000
         #define OD_status                                           CO_OD_RAM.status
 
-/*4001, Data Type: gpio_state_t */
-        #define OD_gpio_state_idx                                   0x4001
-        #define OD_gpio_state                                       CO_OD_RAM.gpio_state
+/*4001, Data Type: powerup_t */
+        #define OD_powerup_idx                                      0x4001
+        #define OD_powerup                                          CO_OD_RAM.powerup
 
-/*4002, Data Type: INTEGER8 */
-        #define OD_uart_ready_idx                                   0x4002
-        #define OD_uart_ready                                       CO_OD_RAM.uart_ready
+/*4002, Data Type: UNSIGNED16 */
+        #define OD_instrument_current_idx                           0x4002
+        #define OD_instrument_current                               CO_OD_RAM.instrument_current
 
 #endif
 // clang-format on

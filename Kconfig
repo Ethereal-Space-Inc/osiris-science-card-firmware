@@ -38,6 +38,12 @@ config BLINK
 	help
 	  Enable the thread which blinks an LED.
 
+config OSIRIS
+	bool "Osiris boot control"
+	default y
+	help
+	  Enable the thread that controls the OSIRIS bootup process.
+
 config CAN_INTF
 	bool "Enable sending CAN packets."
 	default y

@@ -59,16 +59,11 @@
 
 	scigpios: sci-gpios {
 		compatible = "science-card";
-		spare_1_gpios = <&gpio3 0 GPIO_ACTIVE_HIGH>;	/* out */
-		spare_2_gpios = <&gpio3 1 GPIO_ACTIVE_HIGH>;	/* out */
-		spare-3-gpios = <&gpio3 10 0>;	/* out */
-		spare-4-gpios = <&gpio3 11 0>;	/* out */
-		spare-5-gpios = <&gpio3 12 0>;	/* out */
-		spare-6-gpios = <&gpio3 13 0>;	/* out */
-		spare-7-gpios = <&gpio3 14 0>;	/* out */
-		ocxo-no-en-gpios = <&gpio3 15 0>;	/* out. Set high to disable oxco */
-		sep-no-en-gpios  = <&gpio3 16 0>;	/* out. Set high to disable septentrio */
-		pico-no-en-gpios = <&gpio3 17 0>;	/* out. Set high to disable picozed */
+		btldin_1_gpios = <&gpio3 0 GPIO_ACTIVE_HIGH>;	/* out. Set high to boot with the SD card? */
+		btldin_0_gpios = <&gpio3 1 GPIO_ACTIVE_HIGH>;	/* out. Set high to boot with the SD card? */
+		ocxo_no_en_gpios = <&gpio3 15 GPIO_ACTIVE_LOW>;	/* out. Set high to disable oxco */
+		sep_no_en_gpios  = <&gpio3 16 GPIO_ACTIVE_LOW>;	/* out. Set high to disable septentrio */
+		pico_no_en_gpios = <&gpio3 17 GPIO_ACTIVE_LOW>;	/* out. Set high to disable picozed */
 	};
 };
 

@@ -42,6 +42,7 @@ target_sources(app PRIVATE src/main.c)
 # Compile in various demos depending on Kconfig values.
 target_sources_ifdef(CONFIG_ADC_INTF     app PRIVATE src/adc.c)
 target_sources_ifdef(CONFIG_BLINK        app PRIVATE src/blink.c)
+target_sources_ifdef(CONFIG_OSIRIS       app PRIVATE src/osiris.c)
 target_sources_ifdef(CONFIG_CAN_INTF     app PRIVATE src/can.c)
 target_sources_ifdef(CONFIG_CAN_INTF     app PRIVATE src/can_util.c)
 target_sources_ifdef(CONFIG_CAN_INTF     app PRIVATE objdict/CO_OD.c)
