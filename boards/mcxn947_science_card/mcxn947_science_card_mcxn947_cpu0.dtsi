@@ -37,7 +37,8 @@
 		zephyr,shell-uart = &flexcomm4_lpuart4;
 		zephyr,canbus = &flexcan0;
 		zephyr,code-cpu1-partition = &slot1_partition;
-		uart,picozed = &flexcomm9_lpuart9;
+		uart,inst = &flexcomm9_lpuart9;
+		uart,ccc = &flexcomm2_lpuart2;
 	};
 
 	aliases{
@@ -71,11 +72,22 @@
 	status = "okay";
 };
 
+&flexcomm2 {
+	status = "okay";
+};
+
 &flexcomm4 {
 	status = "okay";
 };
 
 &flexcomm9 {
+	status = "okay";
+};
+
+&flexcomm2_lpuart2 {
+	current-speed = <115200>;
+	pinctrl-0 = <&pinmux_flexcomm2_lpuart>;
+	pinctrl-names = "default";
 	status = "okay";
 };
 
@@ -132,10 +144,7 @@
 
 		/*
 		 * Partition sizes must be aligned
-		 * to the flash memory sector size of 8KiB.
-		 *
-		 * There is a 16KiB separation between slot0 and slot1. This replicates the slot
-		 * that exists in the mag and template firmware.
+		 * to the flash memory sector size of 8KB.
 		 */
 		boot_partition: partition@0 {
 			label = "mcuboot";
@@ -143,18 +152,50 @@
 		};
 		slot0_partition: partition@14000 {
 			label = "image-0";
-			reg = <0x00014000 DT_SIZE_K(464)>;
+			reg = <0x00014000 DT_SIZE_K(968)>;
 		};
-		slot1_partition: partition@8C000 {
+		slot1_partition: partition@10A000 {
 			label = "image-1";
-			reg = <0x0008C000 DT_SIZE_K(464)>;
+			reg = <0x0010A000 DT_SIZE_K(968)>;
 		};
-		storage_partition: partition@100000 {
+		storage_partition: partition@1fc000 {
 			label = "storage";
-			reg = <0x00100000 DT_SIZE_K(1024)>;
+			reg = <0x001fc000 DT_SIZE_K(16)>;
 		};
 	};
 };
+
+// &flash {
+// 	partitions {
+// 		compatible = "fixed-partitions";
+// 		#address-cells = <1>;
+// 		#size-cells = <1>;
+
+// 		/*
+// 		 * Partition sizes must be aligned
+// 		 * to the flash memory sector size of 8KiB.
+// 		 *
+// 		 * There is a 16KiB separation between slot0 and slot1. This replicates the slot
+// 		 * that exists in the mag and template firmware.
+// 		 */
+// 		boot_partition: partition@0 {
+// 			label = "mcuboot";
+// 			reg = <0x00000000 DT_SIZE_K(80)>;
+// 		};
+// 		slot0_partition: partition@14000 {
+// 			label = "image-0";
+// 			reg = <0x00014000 DT_SIZE_K(464)>;
+// 		};
+// 		slot1_partition: partition@8C000 {
+// 			label = "image-1";
+// 			reg = <0x0008C000 DT_SIZE_K(464)>;
+// 		};
+// 		storage_partition: partition@100000 {
+// 			label = "storage";
+// 			reg = <0x00100000 DT_SIZE_K(1024)>;
+// 		};
+// 	};
+// };
 
 &mbox {
 	status = "disabled";
@@ -221,21 +262,34 @@
 };
 
 &lpadc0 {
-	pinctrl-names = "default";
 	pinctrl-0 = <&pinmux_lpadc0>;
+	pinctrl-names = "default";
+
 	#address-cells = <1>;
 	#size-cells = <0>;
 	status = "okay";
-	lpadc0_0: channel@0 { /* Current Draw from MAX */
+
+	lpadc0_0: channel@0 {
 		reg = <0>;
 		zephyr,gain = "ADC_GAIN_1";
 		zephyr,reference = "ADC_REF_EXTERNAL0";
 		zephyr,vref-mv = <3300>;
 		zephyr,acquisition-time = <ADC_ACQ_TIME(ADC_ACQ_TIME_MICROSECONDS,2)>;
 		zephyr,resolution = <12>;
-		zephyr,oversampling = <7>;
+		zephyr,oversampling = <5>;
 		zephyr,input-positive = <MCUX_LPADC_CH0A>;
 		/delete-property/ zephyr,differential;
+	};
+	lpadc0_1: channel@1 {
+		reg = <1>;
+		zephyr,gain = "ADC_GAIN_1";
+		zephyr,reference = "ADC_REF_EXTERNAL0";
+		zephyr,vref-mv = <3300>;
+		zephyr,acquisition-time = <ADC_ACQ_TIME(ADC_ACQ_TIME_MICROSECONDS,2)>;
+		zephyr,resolution = <12>;
+		 zephyr,oversampling = <5>;
+		zephyr,input-positive = <MCUX_LPADC_CH1A>;
+		 /delete-property/ zephyr,differential;
 	};
 };
 
