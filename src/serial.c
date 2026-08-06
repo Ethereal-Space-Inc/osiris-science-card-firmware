@@ -6,12 +6,13 @@
 #include <zephyr/device.h>
 #include <zephyr/drivers/uart.h>
 #include <zephyr/sys/ring_buffer.h>
+#include <zephyr/settings/settings.h>
 #include <zephyr/logging/log.h>
 
 #include <stdio.h>
 #include <string.h>
 
-LOG_MODULE_REGISTER(oresat_passthrough, LOG_LEVEL_INF);
+LOG_MODULE_REGISTER(esi_passthrough, CONFIG_LOG_DEFAULT_LEVEL);
 
 struct patch_info {
 	const uint8_t * const name;
@@ -27,13 +28,14 @@ struct patch_info {
 extern const k_tid_t serial_id;
 
 /* size of stack area used by each thread */
-#define SERIAL_THREAD_STACK_SIZE 1024
+#define SERIAL_THREAD_STACK_SIZE 4096
 
 /* scheduling priority used by each thread */
-#define SERIAL_THREAD_PRIORITY -12
+#define SERIAL_THREAD_PRIORITY 8
 
 #define DEV_CCC	DEVICE_DT_GET(DT_CHOSEN(uart_ccc))
 #define DEV_INST DEVICE_DT_GET(DT_CHOSEN(uart_inst))
+#define DEV_CONSOLE	DEVICE_DT_GET(DT_CHOSEN(zephyr_console))
 
 #define RING_BUF_SIZE 64
 
@@ -41,25 +43,34 @@ RING_BUF_DECLARE(rb_ccc, RING_BUF_SIZE);
 struct patch_info patch_ccc2inst = {
 	.name = "ccc2inst",
 
-	.rx_dev = DEV_CCC,
+	.rx_dev = DEV_INST,
 	.rx_ring_buf = &rb_ccc,
 	.rx_error = false,
 	.rx_overflow = false,
 
-	.tx_dev = DEV_INST,
+	.tx_dev = DEV_CONSOLE,
 };
 
 RING_BUF_DECLARE(rb_inst, RING_BUF_SIZE);
 struct patch_info patch_inst2ccc = {
 	.name = "inst2ccc",
 
-	.rx_dev = DEV_INST,
+	.rx_dev = DEV_CONSOLE,
 	.rx_ring_buf = &rb_inst,
 	.rx_error = false,
 	.rx_overflow = false,
 
-	.tx_dev = DEV_CCC,
+	.tx_dev = DEV_INST,
 };
+
+struct uart_config uart_cfg = {
+	.baudrate = 115200,
+	.parity = UART_CFG_PARITY_NONE,
+	.stop_bits = UART_CFG_STOP_BITS_1,
+	.flow_ctrl = UART_CFG_FLOW_CTRL_NONE,
+	.data_bits = UART_CFG_DATA_BITS_8,
+};
+
 
 static void uart_cb(const struct device *dev, void *ctx)
 {
@@ -67,6 +78,7 @@ static void uart_cb(const struct device *dev, void *ctx)
 	int ret;
 	uint8_t *buf;
 	uint32_t len;
+	printk("UART callback for the following device: %p\n", dev);
 
 	while (uart_irq_update(patch->rx_dev) > 0) {
 		ret = uart_irq_rx_ready(patch->rx_dev);
@@ -93,6 +105,7 @@ static void uart_cb(const struct device *dev, void *ctx)
 			break;
 		}
 		len = ret;
+		printk("partial serial output:   %c\n", *buf);
 
 		ret = ring_buf_put_finish(patch->rx_ring_buf, len);
 		if (ret != 0) {
@@ -122,6 +135,7 @@ static void passthrough(struct patch_info *patch)
 	if (len == 0) {
 		goto done;
 	}
+	printk("UART passthrough: %i\n", len);
 
 	ret = uart_fifo_fill(patch->tx_dev, buf, len);
 	if (ret < 0) {
@@ -142,18 +156,40 @@ error:
 	printk("<<%s: Tx Error!>>\n", patch->name);
 }
 
-void handle_serial (void *p1, void *p2, void *p3)
+static int handle_serial (void *p1, void *p2, void *p3)
 {
-	LOG_INF("Starting serial passthrough");
+	char a[1] = "a";
+	char b[1] = "b";
+
+
+	/* Can we use the LED? */
+	if (!device_is_ready(DEV_CCC)) {
+		LOG_ERR("LED device is not ready");
+		return -1;
+	}
+	if (!device_is_ready(DEV_INST)) {
+		LOG_ERR("LED device is not ready");
+		return -1;
+	}
+
+	printk("Console Device: %p\n", patch_ccc2inst.rx_dev);
+	printk("Other Device:   %p\n", patch_inst2ccc.rx_dev);
+	uart_configure(DEV_INST, &uart_cfg);
+	uart_configure(DEV_CCC, &uart_cfg);
+
+
 	uart_irq_callback_user_data_set(patch_ccc2inst.rx_dev, uart_cb, (void *)&patch_ccc2inst);
 	uart_irq_callback_user_data_set(patch_inst2ccc.rx_dev, uart_cb, (void *)&patch_inst2ccc);
 
 	for (;;) {
 		passthrough(&patch_ccc2inst);
 		passthrough(&patch_inst2ccc);
+		uart_poll_out(DEV_INST, a[0]);
+		uart_poll_out(DEV_CCC, b[0]);
+		k_msleep(10);
 	}
 
-	return;
+	return 0;
 }
 
 K_THREAD_DEFINE(serial_id, SERIAL_THREAD_STACK_SIZE, handle_serial, NULL, NULL, NULL, SERIAL_THREAD_PRIORITY, 0, 0);

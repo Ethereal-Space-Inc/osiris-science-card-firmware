@@ -62,8 +62,7 @@
 /* TP44 = PIO4_15 = ADC0_CH1 */
 	pinmux_lpadc0: pinmux_lpadc0 {
 		group0 {
-			pinmux = <ADC0_A0_PIO4_0>,
-				<ADC0_A1_PIO4_15>;
+			pinmux = <ADC0_A0_PIO4_0>;
 			slew-rate = "fast";
 			drive-strength = "low";
 		};
