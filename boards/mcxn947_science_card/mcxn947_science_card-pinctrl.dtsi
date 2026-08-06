@@ -11,8 +11,8 @@
 /* Talks to the instrument */
 	pinmux_flexcomm9_lpuart: pinmux_flexcomm9_lpuart {
 		group0 {
-			pinmux = <FC9_P3_PIO2_2>,
-				<FC9_P5_PIO2_7>;
+			pinmux = <FC9_P0_PIO2_4>,
+				<FC9_P1_PIO2_3>;
 			slew-rate = "fast";
 			bias-pull-up;
 			drive-strength = "low";
@@ -37,8 +37,8 @@
 /* UART connection to the c3 (ccc). */
 	pinmux_flexcomm2_lpuart: pinmux_flexcomm2_lpuart {
 		group0 {
-			pinmux = <FC2_P0_PIO4_0>,
-				<FC2_P1_PIO4_1>;
+			pinmux = <FC2_P0_PIO4_12>,
+				<FC2_P1_PIO4_13>;
 			slew-rate = "fast";
 			bias-pull-up;
 			drive-strength = "low";

@@ -37,8 +37,8 @@
 		zephyr,shell-uart = &flexcomm4_lpuart4;
 		zephyr,canbus = &flexcan0;
 		zephyr,code-cpu1-partition = &slot1_partition;
-		uart,inst = &flexcomm9_lpuart9;
 		uart,ccc = &flexcomm2_lpuart2;
+		uart,instr = &flexcomm9_lpuart9;
 	};
 
 	aliases{
@@ -46,7 +46,6 @@
 		watchdog0 = &wwdt0;
 		rtc = &rtc;
 		adc0 = &lpadc0;
-		pzuart = &flexcomm9_lpuart9;
 	};
 
 	leds {
