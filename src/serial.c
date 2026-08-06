@@ -34,7 +34,7 @@ extern const k_tid_t serial_id;
 #define SERIAL_THREAD_PRIORITY 0
 
 #define DEV_CCC	DEVICE_DT_GET(DT_CHOSEN(uart_ccc))
-#define DEV_INST DEVICE_DT_GET(DT_CHOSEN(uart_instr))
+#define DEV_INST DEVICE_DT_GET(DT_ALIAS(instr))
 #define DEV_CONSOLE	DEVICE_DT_GET(DT_CHOSEN(zephyr_console))
 
 #define RING_BUF_SIZE 64
@@ -140,7 +140,6 @@ static void passthrough(struct patch_info *patch)
 
 	ret = uart_fifo_fill(patch->tx_dev, buf, len);
 	// uart_poll_out(patch->tx_dev, buf[0]);
-	ret = 1;
 	if (ret < 0) {
 		goto error;
 	}
@@ -176,16 +175,15 @@ static int handle_serial (void *p1, void *p2, void *p3)
 		return -1;
 	}
 
+	printk("Console Device: %p\n", patch_ccc2inst.rx_dev);
+	printk("Other Device:   %p\n", patch_inst2ccc.rx_dev);
+
 	// int rc = uart_configure(DEV_INST, &uart_cfg);
 	// if (rc) {
 	// 	printk("Could not configure device %s", DEV_INST -> name);
 	// 	LOG_ERR("AAAAAAAAAAAAAAA");
 	// 	return -1;
 	// }
-
-	printk("Console Device: %p\n", patch_ccc2inst.rx_dev);
-	printk("Other Device:   %p\n", patch_inst2ccc.rx_dev);
-
 
 	uart_irq_callback_user_data_set(patch_ccc2inst.rx_dev, uart_cb, (void *)&patch_ccc2inst);
 	uart_irq_callback_user_data_set(patch_inst2ccc.rx_dev, uart_cb, (void *)&patch_inst2ccc);
