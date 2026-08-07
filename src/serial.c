@@ -69,7 +69,6 @@ static void uart_cb(const struct device *dev, void *ctx)
 	int ret;
 	uint8_t *buf;
 	uint32_t len;
-	printk("UART callback for the following device: %p\n", dev);
 
 	while (uart_irq_update(patch->rx_dev) > 0) {
 		ret = uart_irq_rx_ready(patch->rx_dev);
@@ -96,7 +95,6 @@ static void uart_cb(const struct device *dev, void *ctx)
 			break;
 		}
 		len = ret;
-		printk("partial serial output:   %c\n", *buf);
 
 		ret = ring_buf_put_finish(patch->rx_ring_buf, len);
 		if (ret != 0) {
@@ -134,8 +132,6 @@ static void passthrough(struct patch_info *patch)
 	if (len == 0) {
 		goto done;
 	}
-	printk("UART passthrough Alpha %p: %i\n", patch -> rx_dev, len);
-
 	struct uart_config *cfg;
 
 	ret = uart_fifo_fill(patch->tx_dev, buf, len);
@@ -144,7 +140,6 @@ static void passthrough(struct patch_info *patch)
 		goto error;
 	}
 	len = ret;
-	printk("UART passthrough Beta %p: %i\n", patch -> rx_dev, len);
 
 	ret = ring_buf_get_finish(patch->rx_ring_buf, len);
 	if (ret < 0) {
@@ -191,7 +186,6 @@ static int handle_serial (void *p1, void *p2, void *p3)
 	for (;;) {
 		passthrough(&patch_ccc2inst);
 		passthrough(&patch_inst2ccc);
-
 	}
 
 	return 0;
