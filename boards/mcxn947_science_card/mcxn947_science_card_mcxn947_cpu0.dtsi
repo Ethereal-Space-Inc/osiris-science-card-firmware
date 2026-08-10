@@ -84,7 +84,7 @@
 };
 
 &flexcomm2_lpuart2 {
-	current-speed = <115200>;
+	current-speed = <2000000>;
 	pinctrl-0 = <&pinmux_flexcomm2_lpuart>;
 	pinctrl-names = "default";
 	status = "okay";
@@ -98,7 +98,7 @@
 };
 
 &flexcomm9_lpuart9 {
-	current-speed = <115200>;
+	current-speed = <2000000>;
 	pinctrl-0 = <&pinmux_flexcomm9_lpuart>;
 	pinctrl-names = "default";
 	status = "okay";

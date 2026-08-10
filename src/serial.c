@@ -156,10 +156,6 @@ error:
 
 static int handle_serial (void *p1, void *p2, void *p3)
 {
-	char a[1] = "a";
-	char b[1] = "b";
-
-
 	/* Can we use the LED? */
 	if (!device_is_ready(DEV_CCC)) {
 		LOG_ERR("LED device is not ready");

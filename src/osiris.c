@@ -26,7 +26,7 @@ extern const k_tid_t osiris_id;
 #define INTERLOOP_DELAY 1000
 
 /* size of stack area used by each thread */
-#define STACKSIZE 1024
+#define OSIRIS_THREAD_STACK_SIZE 1024
 
 /* scheduling priority used by each thread */
 #define PRIORITY -11
@@ -69,7 +69,7 @@ int verify_gpios(void)
 
 uint8_t read_ocxo(void)
 {
-	gpio_flags_t * flag;
+	gpio_flags_t * flag = 0;
 	int ret;
 
 	ret = gpio_pin_get_config_dt(&ocxo_nen, flag);
@@ -86,7 +86,7 @@ uint8_t read_ocxo(void)
 
 uint8_t read_sep(void)
 {
-	gpio_flags_t * flag;
+	gpio_flags_t * flag = 0;
 	int ret;
 
 	ret = gpio_pin_get_config_dt(&sep_nen, flag);
@@ -103,7 +103,7 @@ uint8_t read_sep(void)
 
 uint8_t read_pico(void)
 {
-	gpio_flags_t * flag;
+	gpio_flags_t * flag = 0;
 	int ret;
 
 	ret = gpio_pin_get_config_dt(&pico_nen, flag);
@@ -128,7 +128,33 @@ static void handle_can_open_data(void)
 	CO_OD_RAM.powerup.sep_gpio_state = read_sep();
 	CO_OD_RAM.powerup.pico_gpio_state = read_pico();
 
+	state = CO_OD_RAM.powerup.powerup_state;
     CO_UNLOCK_OD();
+
+	switch (state) {
+		case 0:
+			gpio_pin_set_dt(&ocxo_nen, false);
+			gpio_pin_set_dt(&sep_nen, false);
+			gpio_pin_set_dt(&pico_nen, false);
+			return;
+		case 1:
+			gpio_pin_set_dt(&ocxo_nen, true);
+			gpio_pin_set_dt(&sep_nen, false);
+			gpio_pin_set_dt(&pico_nen, false);
+			return;
+		case 2:
+			gpio_pin_set_dt(&ocxo_nen, true);
+			gpio_pin_set_dt(&sep_nen, true);
+			gpio_pin_set_dt(&pico_nen, false);
+			return;
+		case 3:
+			gpio_pin_set_dt(&ocxo_nen, true);
+			gpio_pin_set_dt(&sep_nen, true);
+			gpio_pin_set_dt(&pico_nen, true);
+			return;
+		default:
+			return;
+	}
 }
 
 static int handle_bootup(void)
@@ -144,10 +170,9 @@ static int handle_bootup(void)
 	/* for the sake of simplicity I will be using ints to mark the state. Refer to oresat-configs-esi for the definitions */
 	while (1) {
 		handle_can_open_data();
-
 		k_msleep(INTERLOOP_DELAY);
 	}
 	return 0;
 }
 
-K_THREAD_DEFINE(osiris_id, STACKSIZE, handle_bootup, NULL, NULL, NULL, PRIORITY, 0, 0);
+K_THREAD_DEFINE(osiris_id, OSIRIS_THREAD_STACK_SIZE, handle_bootup, NULL, NULL, NULL, PRIORITY, 0, 0);
