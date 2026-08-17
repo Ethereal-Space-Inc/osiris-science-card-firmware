@@ -119,12 +119,12 @@ static void passthrough(struct patch_info *patch)
 	uint32_t len;
 
 	if (patch->rx_error) {
-		printk("<<%s: Rx Error!>>\n", patch->name);
+		LOG_ERR("<<%s: Rx Error!>>\n", patch->name);
 		patch->rx_error = false;
 	}
 
 	if (patch->rx_overflow) {
-		printk("<<%s: Rx Overflow!>>\n", patch->name);
+		LOG_ERR("<<%s: Rx Overflow!>>\n", patch->name);
 		patch->rx_overflow = false;
 	}
 
@@ -151,7 +151,7 @@ done:
 	return;
 
 error:
-	printk("<<%s: Tx Error!>>\n", patch->name);
+	LOG_ERR("<<%s: Tx Error!>>\n", patch->name);
 }
 
 static int handle_serial (void *p1, void *p2, void *p3)
@@ -165,9 +165,6 @@ static int handle_serial (void *p1, void *p2, void *p3)
 		LOG_ERR("LED device is not ready");
 		return -1;
 	}
-
-	printk("Console Device: %p\n", patch_ccc2inst.rx_dev);
-	printk("Other Device:   %p\n", patch_inst2ccc.rx_dev);
 
 	// int rc = uart_configure(DEV_INST, &uart_cfg);
 	// if (rc) {
