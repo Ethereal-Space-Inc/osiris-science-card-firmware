@@ -129,6 +129,7 @@ static void handle_can_open_data(void)
 	CO_OD_RAM.powerup.pico_gpio_state = read_pico();
 
 	state = CO_OD_RAM.powerup.powerup_state;
+	int bootmd = CO_OD_RAM.powerup.pico_boot_mode;
     CO_UNLOCK_OD();
 
 	switch (state) {
@@ -154,6 +155,12 @@ static void handle_can_open_data(void)
 			return;
 		default:
 			return;
+	}
+
+	if (bootmd) {
+		gpio_pin_set_dt(&btldin_0, true);
+	} else {
+		gpio_pin_set_dt(&btldin_0, false);
 	}
 }
 
