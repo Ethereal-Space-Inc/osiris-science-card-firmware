@@ -37,7 +37,7 @@
 		zephyr,shell-uart = &flexcomm4_lpuart4;
 		zephyr,canbus = &flexcan0;
 		zephyr,code-cpu1-partition = &slot1_partition;
-		uart,ccc = &flexcomm2_lpuart2;
+		/* uart,ccc = &flexcomm2_lpuart2; */
 	};
 
 	aliases{
@@ -45,7 +45,7 @@
 		watchdog0 = &wwdt0;
 		rtc = &rtc;
 		adc0 = &lpadc0;
-		instr = &flexcomm9_lpuart9;
+		/* instr = &flexcomm9_lpuart9; */
 	};
 
 	leds {
@@ -71,24 +71,24 @@
 	status = "okay";
 };
 
-&flexcomm2 {
+/* &flexcomm2 {
 	status = "okay";
-};
+}; */
 
 &flexcomm4 {
 	status = "okay";
 };
 
-&flexcomm9 {
+/* &flexcomm9 {
 	status = "okay";
-};
+}; */
 
-&flexcomm2_lpuart2 {
+/* &flexcomm2_lpuart2 {
 	current-speed = <115200>;
 	pinctrl-0 = <&pinmux_flexcomm2_lpuart>;
 	pinctrl-names = "default";
 	status = "okay";
-};
+}; */
 
 &flexcomm4_lpuart4 {
 	current-speed = <115200>;
@@ -97,12 +97,12 @@
 	status = "okay";
 };
 
-&flexcomm9_lpuart9 {
+/* &flexcomm9_lpuart9 {
 	current-speed = <115200>;
 	pinctrl-0 = <&pinmux_flexcomm9_lpuart>;
 	pinctrl-names = "default";
 	status = "okay";
-};
+}; */
 
 &flexcan0 {
 	pinctrl-0 = <&pinmux_flexcan0>;

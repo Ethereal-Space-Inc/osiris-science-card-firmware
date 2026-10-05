@@ -9,7 +9,7 @@
 &pinctrl {
 /* Pin 21/P2_7 (TX) Pin 16/P2_2 (RX) */
 /* Talks to the instrument */
-	pinmux_flexcomm9_lpuart: pinmux_flexcomm9_lpuart {
+	/* pinmux_flexcomm9_lpuart: pinmux_flexcomm9_lpuart {
 		group0 {
 			pinmux = <FC9_P0_PIO2_4>,
 				<FC9_P1_PIO2_3>;
@@ -18,7 +18,7 @@
 			drive-strength = "low";
 			input-enable;
 		};
-	};
+	}; */
 
 /* Pins 1 and 2, or P1_8 and P1_9 */
 /* UART connection to the backplane/debug connector. */
@@ -35,7 +35,7 @@
 
 /* Pins 35 and 36, or P4_0 and P4_1 */
 /* UART connection to the c3 (ccc). */
-	pinmux_flexcomm2_lpuart: pinmux_flexcomm2_lpuart {
+	/* pinmux_flexcomm2_lpuart: pinmux_flexcomm2_lpuart {
 		group0 {
 			pinmux = <FC2_P0_PIO4_12>,
 				<FC2_P1_PIO4_13>;
@@ -44,7 +44,7 @@
 			drive-strength = "low";
 			input-enable;
 		};
-	};
+	}; */
 
 /* Pins number 3 and 4, or P1_10 and P1_11. */
 /* Connect to CAN2 on the backplane. CAN1 is unconnected. that might be an issue? */
