@@ -18,7 +18,7 @@
 #include <version.h>
 #include <app_version.h>
 
-LOG_MODULE_REGISTER(oresat_mcxn947_mag, CONFIG_LOG_DEFAULT_LEVEL);
+LOG_MODULE_REGISTER(osiris_science_card, CONFIG_LOG_DEFAULT_LEVEL);
 
 /** Dump Hardware Info
  *    Show the unique processor id and the reason for reset.
@@ -57,7 +57,7 @@ static void dump_hwinfo(void)
 
 int main(void)
 {
-	LOG_INF("Oresat MCXN947 Mag Board App");
+	LOG_INF("Oresat MCXN947 Science Board App");
 	LOG_INF("   Oresat   Board: %s", CONFIG_BOARD_TARGET);
 	dump_hwinfo();
 	LOG_INF("   App    Version: %s", APP_VERSION_STRING);

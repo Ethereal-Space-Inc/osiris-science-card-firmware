@@ -6,7 +6,7 @@ list(APPEND BOARD_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
 set(BOARD "mcxn947_science_card/mcxn947/cpu0")
 
 find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
-project(oresat_mcxn947_science)
+project(osiris_science_card)
 
 set(VERSION_MAJOR "1")
 set(VERSION_MINOR "0")
@@ -42,6 +42,8 @@ target_sources(app PRIVATE src/main.c)
 # Compile in various demos depending on Kconfig values.
 target_sources_ifdef(CONFIG_ADC_INTF     app PRIVATE src/adc.c)
 target_sources_ifdef(CONFIG_BLINK        app PRIVATE src/blink.c)
+target_sources_ifdef(CONFIG_OSIRIS       app PRIVATE src/osiris.c)
+target_sources_ifdef(CONFIG_INSTLOOP     app PRIVATE src/serial.c)
 target_sources_ifdef(CONFIG_CAN_INTF     app PRIVATE src/can.c)
 target_sources_ifdef(CONFIG_CAN_INTF     app PRIVATE src/can_util.c)
 target_sources_ifdef(CONFIG_CAN_INTF     app PRIVATE objdict/CO_OD.c)

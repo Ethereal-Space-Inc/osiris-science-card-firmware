@@ -188,6 +188,12 @@ void board_early_init_hook(void)
 	CLOCK_AttachClk(kFRO_HF_DIV_to_FLEXCOMM7);
 #endif
 
+#if DT_NODE_HAS_STATUS_OKAY(DT_NODELABEL(flexcomm9))
+	/* Configure input clock to be able to reach the datasheet specified SPI band rate. */
+	CLOCK_SetClkDiv(kCLOCK_DivFlexcom9Clk, 1u);
+	CLOCK_AttachClk(kFRO_HF_DIV_to_FLEXCOMM9);
+#endif
+
 #if DT_NODE_HAS_STATUS_OKAY(DT_NODELABEL(os_timer))
 	CLOCK_AttachClk(kCLK_1M_to_OSTIMER);
 #endif

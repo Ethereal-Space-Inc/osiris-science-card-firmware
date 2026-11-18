@@ -1,57 +1,32 @@
 # Oresat mag card
 # TODO: replace below with proper gpios for mag card; these are from the proto card
 
-description: Oresat mag card
+description: Oresat science card
 
 compatible: "science-card"
 
 properties:
-  spare-1-gpios:
+  btldin_1_gpios:
     type: phandle-array
     required: true
     description: GPIO input or output.
 
-  spare-2-gpios:
+  btldin_0_gpios:
     type: phandle-array
     required: true
     description: GPIO input or output.
 
-  spare-3-gpios:
+  ocxo_no_en_gpios:
     type: phandle-array
     required: true
     description: GPIO input or output.
 
-  spare-4-gpios:
+  sep_no_en_gpios:
     type: phandle-array
     required: true
     description: GPIO input or output.
 
-  spare-5-gpios:
-    type: phandle-array
-    required: true
-    description: GPIO input or output.
-
-  spare-6-gpios:
-    type: phandle-array
-    required: true
-    description: GPIO input or output.
-
-  spare-7-gpios:
-    type: phandle-array
-    required: true
-    description: GPIO input or output.
-
-  ocxo-no-en-gpios:
-    type: phandle-array
-    required: true
-    description: GPIO input or output.
-
-  sep-no-en-gpios:
-    type: phandle-array
-    required: true
-    description: GPIO input or output.
-
-  pico-no-en-gpios:
+  pico_no_en_gpios:
     type: phandle-array
     required: true
     description: GPIO input or output.

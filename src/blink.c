@@ -34,6 +34,7 @@ LOG_MODULE_REGISTER(oresat_blink, LOG_LEVEL_INF);
 /* The devicetree node identifier for the "led0" alias. */
 #define LED0_NODE DT_ALIAS(led0)
 
+
 static int handle_blink(void)
 {
 	int ret;

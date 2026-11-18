@@ -1,5 +1,12 @@
 board:
   name: mcxn947_science_card
+  full_name: AAAAA
   vendor: ESI
   socs:
     - name: mcxn947
+  revision:
+    format: major.minor.patch
+    default: "1.0.0"
+    revisions:
+    - name: "1.0.0"
+    - name: "1.1.0"

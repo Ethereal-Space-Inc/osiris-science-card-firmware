@@ -10,7 +10,7 @@
  */
 /dts-v1/;
 
-#include <nxp/nxp_mcxn94x.dtsi>
+#include <nxp/mcx/nxp_mcxn94x.dtsi>
 #include <zephyr/dt-bindings/i2c/i2c.h>
 #include <zephyr/dt-bindings/gpio/gpio.h>
 #include <zephyr/dt-bindings/adc/adc.h>
@@ -37,6 +37,7 @@
 		zephyr,shell-uart = &flexcomm4_lpuart4;
 		zephyr,canbus = &flexcan0;
 		zephyr,code-cpu1-partition = &slot1_partition;
+		/* uart,ccc = &flexcomm2_lpuart2; */
 	};
 
 	aliases{
@@ -44,7 +45,7 @@
 		watchdog0 = &wwdt0;
 		rtc = &rtc;
 		adc0 = &lpadc0;
-		// picozed_uart = &flexcomm9_lpuart4; // re-enable it when the cards are fixed.
+		/* instr = &flexcomm9_lpuart9; */
 	};
 
 	leds {
@@ -58,40 +59,36 @@
 
 	scigpios: sci-gpios {
 		compatible = "science-card";
-		spare-1-gpios = <&gpio3 8 0>;	/* out */
-		spare-2-gpios = <&gpio3 9 0>;	/* out */
-		spare-3-gpios = <&gpio3 10 0>;	/* out */
-		spare-4-gpios = <&gpio3 11 0>;	/* out */
-		spare-5-gpios = <&gpio3 12 0>;	/* out */
-		spare-6-gpios = <&gpio3 13 0>;	/* out */
-		spare-7-gpios = <&gpio3 14 0>;	/* out */
-		ocxo-no-en-gpios = <&gpio3 15 0>;	/* out. Set high to disable oxco */
-		sep-no-en-gpios  = <&gpio3 16 0>;	/* out. Set high to disable septentrio */
-		pico-no-en-gpios = <&gpio3 17 0>;	/* out. Set high to disable picozed */
-		// ocxo-no-en-gpios = <&gpio3 15 GPIO_ACTIVE_HIGH>;	/* out. Set high to disable oxco */ // Use these once we have real hardware to test with.
-		// sep-no-en-gpios  = <&gpio3 16 GPIO_ACTIVE_HIGH>;	/* out. Set high to disable septentrio */
-		// pico-no-en-gpios = <&gpio3 17 GPIO_ACTIVE_HIGH>;	/* out. Set high to disable picozed */
+		btldin_1_gpios = <&gpio3 0 GPIO_ACTIVE_HIGH>;	/* out. Set high to boot with the SD card? */
+		btldin_0_gpios = <&gpio3 1 GPIO_ACTIVE_HIGH>;	/* out. Set high to boot with the SD card? */
+		ocxo_no_en_gpios = <&gpio3 15 GPIO_ACTIVE_LOW>;	/* out. Set high to disable oxco */
+		sep_no_en_gpios  = <&gpio3 16 GPIO_ACTIVE_LOW>;	/* out. Set high to disable septentrio */
+		pico_no_en_gpios = <&gpio3 17 GPIO_ACTIVE_LOW>;	/* out. Set high to disable picozed */
 	};
-
-	// zephyr,user {
-	// 	dac0 = <&dac0>;
-	// 	dac-channel-id = <0>;
-	// 	dac-resolution = <12>;
-	// 	status = "okay";
-	// };
 };
 
 &flexcomm0 {
 	status = "okay";
 };
 
+/* &flexcomm2 {
+	status = "okay";
+}; */
+
 &flexcomm4 {
 	status = "okay";
 };
 
-// &flexcomm9 {
-// 	status = "okay";
-// };
+/* &flexcomm9 {
+	status = "okay";
+}; */
+
+/* &flexcomm2_lpuart2 {
+	current-speed = <115200>;
+	pinctrl-0 = <&pinmux_flexcomm2_lpuart>;
+	pinctrl-names = "default";
+	status = "okay";
+}; */
 
 &flexcomm4_lpuart4 {
 	current-speed = <115200>;
@@ -100,12 +97,12 @@
 	status = "okay";
 };
 
-// &flexcomm9_lpuart4 {
-// 	current-speed = <2000000>;
-// 	pinctrl-0 = <&pinmux_flexcomm4_lpuart>;
-// 	pinctrl-names = "default";
-// 	status = "okay";
-// };
+/* &flexcomm9_lpuart9 {
+	current-speed = <115200>;
+	pinctrl-0 = <&pinmux_flexcomm9_lpuart>;
+	pinctrl-names = "default";
+	status = "okay";
+}; */
 
 &flexcan0 {
 	pinctrl-0 = <&pinmux_flexcan0>;
@@ -138,7 +135,6 @@
 	};
 };
 
-// figure out
 &flash {
 	partitions {
 		compatible = "fixed-partitions";
@@ -148,6 +144,9 @@
 		/*
 		 * Partition sizes must be aligned
 		 * to the flash memory sector size of 8KiB.
+		 *
+		 * There is a 16KiB separation between slot0 and slot1. This replicates the slot
+		 * that exists in the mag and template firmware.
 		 */
 		boot_partition: partition@0 {
 			label = "mcuboot";
@@ -155,15 +154,15 @@
 		};
 		slot0_partition: partition@14000 {
 			label = "image-0";
-			reg = <0x00014000 DT_SIZE_K(968)>;
+			reg = <0x00014000 DT_SIZE_K(464)>;
 		};
-		slot1_partition: partition@10A000 {
+		slot1_partition: partition@8C000 {
 			label = "image-1";
-			reg = <0x0010A000 DT_SIZE_K(968)>;
+			reg = <0x0008C000 DT_SIZE_K(464)>;
 		};
-		storage_partition: partition@1fc000 {
+		storage_partition: partition@100000 {
 			label = "storage";
-			reg = <0x001fc000 DT_SIZE_K(16)>;
+			reg = <0x00100000 DT_SIZE_K(1024)>;
 		};
 	};
 };
@@ -177,6 +176,10 @@
 };
 
 &gpio1 {
+	status = "okay";
+};
+
+&gpio3 {
 	status = "okay";
 };
 
@@ -246,4 +249,3 @@
 		/delete-property/ zephyr,differential;
 	};
 };
-

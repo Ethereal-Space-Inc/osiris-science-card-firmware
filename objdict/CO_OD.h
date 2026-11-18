@@ -35,7 +35,7 @@
 
    typedef domain_t     DOMAIN;
 
-#ifndef timeOfDay_t
+   #ifndef timeOfDay_t
     typedef union {
         unsigned long long ullValue;
         struct {
@@ -51,10 +51,10 @@
     typedef timeOfDay_t TIME_DIFFERENCE;
 /*******************************************************************************
    FILE INFO:
-      FileName:     adcs (5).xdd
+      FileName:     _osiris_science_card.eds
       FileVersion:  
-      CreationTime: 8:06PM
-      CreationDate: 06-07-2026
+      CreationTime: 05:07PM
+      CreationDate: 07-06-2026
       CreatedBy:    
 *******************************************************************************/
 
@@ -63,7 +63,7 @@
    DEVICE INFO:
       VendorName:     PSAS
       VendorNumber:   0
-      ProductName:    ADCS
+      ProductName:    Osiris Science Card
       ProductNumber:  0
 *******************************************************************************/
 
@@ -71,7 +71,7 @@
 /*******************************************************************************
    FEATURES
 *******************************************************************************/
-  #define CO_NO_SYNC                     0   //Associated objects: 1005-1007
+  #define CO_NO_SYNC                     1   //Associated objects: 1005-1007
   #define CO_NO_EMERGENCY                1   //Associated objects: 1014, 1015
   #define CO_NO_TIME                     0   //Associated objects: 1012, 1013
   #define CO_NO_SDO_SERVER               1   //Associated objects: 1200-127F
@@ -83,7 +83,7 @@
   #define CO_NODE_GUARDING_SLAVE         0   //NG Slave
   #define CO_NODE_GUARDING_MASTER        0   //NG Master
   #define CO_NO_RPDO                     1   //Associated objects: 14xx, 16xx
-  #define CO_NO_TPDO                     10   //Associated objects: 18xx, 1Axx
+  #define CO_NO_TPDO                     2   //Associated objects: 18xx, 1Axx
   #define CO_NO_NMT_MASTER               0
   #define CO_NO_TRACE                    0
 
@@ -91,7 +91,7 @@
 /*******************************************************************************
    OBJECT DICTIONARY
 *******************************************************************************/
-   #define CO_OD_NoOfElements             54
+   #define CO_OD_NoOfElements             36
 
 
 /*******************************************************************************
@@ -114,10 +114,7 @@
                UNSIGNED8      highest_index_supported;
                UNSIGNED32     cob_id;
                UNSIGNED8      transmission_type;
-               //UNSIGNED8      inhibit_time;
-               //UNSIGNED8      compatibility_entry;
-               //UNSIGNED16     event_timer;
-               //UNSIGNED8      sync_start_value;
+               UNSIGNED16     event_timer;
                }              OD_RPDOCommunicationParameter_t;
 /*1600      */ typedef struct {
                UNSIGNED8      highest_index_supported;
@@ -153,8 +150,7 @@
 /*3002      */ typedef struct {
                UNSIGNED8      highest_index_supported;
                VISIBLE_STRING hw_version[3];
-               VISIBLE_STRING configs_version[32];
-               VISIBLE_STRING olaf_version[5];
+               VISIBLE_STRING configs_version[21];
                VISIBLE_STRING fw_version[5];
                }              OD_versions_t;
 /*3003      */ typedef struct {
@@ -164,60 +160,18 @@
                INTEGER8       temperature;
                UNSIGNED16     vrefint;
                }              OD_system_t;
-/*4000      */ typedef struct {
-               UNSIGNED8      highest_index_supported;
-               INTEGER16      pitch_rate;
-               INTEGER16      yaw_rate;
-               INTEGER16      roll_rate;
-               UNSIGNED16     pitch_rate_raw;
-               UNSIGNED16     yaw_rate_raw;
-               UNSIGNED16     roll_rate_raw;
-               }              OD_gyroscope_t;
 /*4001      */ typedef struct {
                UNSIGNED8      highest_index_supported;
-               INTEGER16      x;
-               INTEGER16      y;
-               INTEGER16      z;
-               UNSIGNED16     X_raw;
-               UNSIGNED16     Y_raw;
-               UNSIGNED16     Z_raw;
-               }              OD_accelerometer_t;
-/*4003      */ typedef struct {
-               UNSIGNED8      highest_index_supported;
-               INTEGER16      x;
-               INTEGER16      y;
-               INTEGER16      z;
-               }              OD_pos_z_magnetometer_1_t;
-/*4004      */ typedef struct {
-               UNSIGNED8      highest_index_supported;
-               INTEGER16      x;
-               INTEGER16      y;
-               INTEGER16      z;
-               }              OD_pos_z_magnetometer_2_t;
-/*4005      */ typedef struct {
-               UNSIGNED8      highest_index_supported;
-               INTEGER16      x;
-               INTEGER16      y;
-               INTEGER16      z;
-               }              OD_min_z_magnetometer_1_t;
-/*4006      */ typedef struct {
-               UNSIGNED8      highest_index_supported;
-               INTEGER16      x;
-               INTEGER16      y;
-               INTEGER16      z;
-               }              OD_min_z_magnetometer_2_t;
-/*4007      */ typedef struct {
-               UNSIGNED8      highest_index_supported;
-               INTEGER32      current_x;
-               INTEGER32      current_y;
-               INTEGER32      current_z;
-               INTEGER32      current_x_setpoint;
-               INTEGER32      current_y_setpoint;
-               INTEGER32      current_z_setpoint;
-               INTEGER16      pwm_x;
-               INTEGER16      pwm_y;
-               INTEGER16      pwm_z;
-               }              OD_magnetorquer_t;
+               UNSIGNED8      enabled;
+               UNSIGNED8      powerup_state;
+               UNSIGNED8      ocxo_gpio_state;
+               UNSIGNED32     ocxo_boot_timeout;
+               UNSIGNED8      sep_gpio_state;
+               UNSIGNED32     sep_boot_timeout;
+               UNSIGNED8      pico_gpio_state;
+               UNSIGNED32     pico_boot_timeout;
+               UNSIGNED8      pico_boot_mode;
+               }              OD_powerup_t;
 
 /*******************************************************************************
    TYPE DEFINITIONS FOR OBJECT DICTIONARY INDEXES
@@ -243,6 +197,15 @@
         #define OD_1003_6_preDefinedErrorField_error_6              6
         #define OD_1003_7_preDefinedErrorField_error_7              7
         #define OD_1003_8_preDefinedErrorField_error_8              8
+
+/*1005 */
+        #define OD_1005_COB_ID_SYNCMessage                          0x1005
+
+/*1006 */
+        #define OD_1006_communicationCyclePeriod                    0x1006
+
+/*1007 */
+        #define OD_1007_synchronousWindowLength                     0x1007
 
 /*1014 */
         #define OD_1014_cob_id_emergency_message                    0x1014
@@ -291,10 +254,7 @@
         #define OD_1400_0_RPDOCommunicationParameter_maxSubIndex    0
         #define OD_1400_1_RPDOCommunicationParameter_cob_id         1
         #define OD_1400_2_RPDOCommunicationParameter_transmission_type 2
-        #define OD_1400_3_RPDOCommunicationParameter_inhibit_time   3
-        #define OD_1400_4_RPDOCommunicationParameter_compatibility_entry 4
         #define OD_1400_5_RPDOCommunicationParameter_event_timer    5
-        #define OD_1400_6_RPDOCommunicationParameter_sync_start_value 6
 
 /*1600 */
         #define OD_1600_RPDOMappingParameter                        0x1600
@@ -331,94 +291,6 @@
         #define OD_1801_5_TPDOCommunicationParameter_event_timer    5
         #define OD_1801_6_TPDOCommunicationParameter_sync_start_value 6
 
-/*1802 */
-        #define OD_1802_TPDOCommunicationParameter                  0x1802
-
-        #define OD_1802_0_TPDOCommunicationParameter_maxSubIndex    0
-        #define OD_1802_1_TPDOCommunicationParameter_cob_id         1
-        #define OD_1802_2_TPDOCommunicationParameter_transmission_type 2
-        #define OD_1802_3_TPDOCommunicationParameter_inhibit_time   3
-        #define OD_1802_4_TPDOCommunicationParameter_compatibilityEntry 4
-        #define OD_1802_5_TPDOCommunicationParameter_event_timer    5
-        #define OD_1802_6_TPDOCommunicationParameter_sync_start_value 6
-
-/*1803 */
-        #define OD_1803_TPDOCommunicationParameter                  0x1803
-
-        #define OD_1803_0_TPDOCommunicationParameter_maxSubIndex    0
-        #define OD_1803_1_TPDOCommunicationParameter_cob_id         1
-        #define OD_1803_2_TPDOCommunicationParameter_transmission_type 2
-        #define OD_1803_3_TPDOCommunicationParameter_inhibit_time   3
-        #define OD_1803_4_TPDOCommunicationParameter_compatibilityEntry 4
-        #define OD_1803_5_TPDOCommunicationParameter_event_timer    5
-        #define OD_1803_6_TPDOCommunicationParameter_sync_start_value 6
-
-/*1804 */
-        #define OD_1804_TPDOCommunicationParameter                  0x1804
-
-        #define OD_1804_0_TPDOCommunicationParameter_maxSubIndex    0
-        #define OD_1804_1_TPDOCommunicationParameter_cob_id         1
-        #define OD_1804_2_TPDOCommunicationParameter_transmission_type 2
-        #define OD_1804_3_TPDOCommunicationParameter_inhibit_time   3
-        #define OD_1804_4_TPDOCommunicationParameter_compatibilityEntry 4
-        #define OD_1804_5_TPDOCommunicationParameter_event_timer    5
-        #define OD_1804_6_TPDOCommunicationParameter_sync_start_value 6
-
-/*1805 */
-        #define OD_1805_TPDOCommunicationParameter                  0x1805
-
-        #define OD_1805_0_TPDOCommunicationParameter_maxSubIndex    0
-        #define OD_1805_1_TPDOCommunicationParameter_cob_id         1
-        #define OD_1805_2_TPDOCommunicationParameter_transmission_type 2
-        #define OD_1805_3_TPDOCommunicationParameter_inhibit_time   3
-        #define OD_1805_4_TPDOCommunicationParameter_compatibilityEntry 4
-        #define OD_1805_5_TPDOCommunicationParameter_event_timer    5
-        #define OD_1805_6_TPDOCommunicationParameter_sync_start_value 6
-
-/*1806 */
-        #define OD_1806_TPDOCommunicationParameter                  0x1806
-
-        #define OD_1806_0_TPDOCommunicationParameter_maxSubIndex    0
-        #define OD_1806_1_TPDOCommunicationParameter_cob_id         1
-        #define OD_1806_2_TPDOCommunicationParameter_transmission_type 2
-        #define OD_1806_3_TPDOCommunicationParameter_inhibit_time   3
-        #define OD_1806_4_TPDOCommunicationParameter_compatibilityEntry 4
-        #define OD_1806_5_TPDOCommunicationParameter_event_timer    5
-        #define OD_1806_6_TPDOCommunicationParameter_sync_start_value 6
-
-/*1807 */
-        #define OD_1807_TPDOCommunicationParameter                  0x1807
-
-        #define OD_1807_0_TPDOCommunicationParameter_maxSubIndex    0
-        #define OD_1807_1_TPDOCommunicationParameter_cob_id         1
-        #define OD_1807_2_TPDOCommunicationParameter_transmission_type 2
-        #define OD_1807_3_TPDOCommunicationParameter_inhibit_time   3
-        #define OD_1807_4_TPDOCommunicationParameter_compatibilityEntry 4
-        #define OD_1807_5_TPDOCommunicationParameter_event_timer    5
-        #define OD_1807_6_TPDOCommunicationParameter_sync_start_value 6
-
-/*1808 */
-        #define OD_1808_TPDOCommunicationParameter                  0x1808
-
-        #define OD_1808_0_TPDOCommunicationParameter_maxSubIndex    0
-        #define OD_1808_1_TPDOCommunicationParameter_cob_id         1
-        #define OD_1808_2_TPDOCommunicationParameter_transmission_type 2
-        #define OD_1808_3_TPDOCommunicationParameter_inhibit_time   3
-        #define OD_1808_4_TPDOCommunicationParameter_compatibilityEntry 4
-        #define OD_1808_5_TPDOCommunicationParameter_event_timer    5
-        #define OD_1808_6_TPDOCommunicationParameter_sync_start_value 6
-
-/*1809 */
-        #define OD_1809_TPDOCommunicationParameter                  0x1809
-
-        #define OD_1809_0_TPDOCommunicationParameter_maxSubIndex    0
-        #define OD_1809_1_TPDOCommunicationParameter_cob_id         1
-        #define OD_1809_2_TPDOCommunicationParameter_transmission_type 2
-        #define OD_1809_3_TPDOCommunicationParameter_inhibit_time   3
-        #define OD_1809_4_TPDOCommunicationParameter_compatibilityEntry 4
-        #define OD_1809_5_TPDOCommunicationParameter_event_timer    5
-        #define OD_1809_6_TPDOCommunicationParameter_sync_start_value 6
-
 /*1A00 */
         #define OD_1A00_TPDOMappingParameter                        0x1A00
 
@@ -445,109 +317,29 @@
         #define OD_1A01_7_TPDOMappingParameter_mapping_object_7     7
         #define OD_1A01_8_TPDOMappingParameter_mapping_object_8     8
 
-/*1A02 */
-        #define OD_1A02_TPDOMappingParameter                        0x1A02
+/*1F50 */
+        #define OD_1F50_program_data                                0x1F50
 
-        #define OD_1A02_0_TPDOMappingParameter_maxSubIndex          0
-        #define OD_1A02_1_TPDOMappingParameter_mapping_object_1     1
-        #define OD_1A02_2_TPDOMappingParameter_mapping_object_2     2
-        #define OD_1A02_3_TPDOMappingParameter_mapping_object_3     3
-        #define OD_1A02_4_TPDOMappingParameter_mapping_object_4     4
-        #define OD_1A02_5_TPDOMappingParameter_mapping_object_5     5
-        #define OD_1A02_6_TPDOMappingParameter_mapping_object_6     6
-        #define OD_1A02_7_TPDOMappingParameter_mapping_object_7     7
-        #define OD_1A02_8_TPDOMappingParameter_mapping_object_8     8
+        #define OD_1F50_0_program_data_maxSubIndex                  0
+        #define OD_1F50_1_program_data_data_1                       1
 
-/*1A03 */
-        #define OD_1A03_TPDOMappingParameter                        0x1A03
+/*1F51 */
+        #define OD_1F51_program_control                             0x1F51
 
-        #define OD_1A03_0_TPDOMappingParameter_maxSubIndex          0
-        #define OD_1A03_1_TPDOMappingParameter_mapping_object_1     1
-        #define OD_1A03_2_TPDOMappingParameter_mapping_object_2     2
-        #define OD_1A03_3_TPDOMappingParameter_mapping_object_3     3
-        #define OD_1A03_4_TPDOMappingParameter_mapping_object_4     4
-        #define OD_1A03_5_TPDOMappingParameter_mapping_object_5     5
-        #define OD_1A03_6_TPDOMappingParameter_mapping_object_6     6
-        #define OD_1A03_7_TPDOMappingParameter_mapping_object_7     7
-        #define OD_1A03_8_TPDOMappingParameter_mapping_object_8     8
+        #define OD_1F51_0_program_control_maxSubIndex               0
+        #define OD_1F51_1_program_control_control_1                 1
 
-/*1A04 */
-        #define OD_1A04_TPDOMappingParameter                        0x1A04
+/*1F56 */
+        #define OD_1F56_program_software_identification             0x1F56
 
-        #define OD_1A04_0_TPDOMappingParameter_maxSubIndex          0
-        #define OD_1A04_1_TPDOMappingParameter_mapping_object_1     1
-        #define OD_1A04_2_TPDOMappingParameter_mapping_object_2     2
-        #define OD_1A04_3_TPDOMappingParameter_mapping_object_3     3
-        #define OD_1A04_4_TPDOMappingParameter_mapping_object_4     4
-        #define OD_1A04_5_TPDOMappingParameter_mapping_object_5     5
-        #define OD_1A04_6_TPDOMappingParameter_mapping_object_6     6
-        #define OD_1A04_7_TPDOMappingParameter_mapping_object_7     7
-        #define OD_1A04_8_TPDOMappingParameter_mapping_object_8     8
+        #define OD_1F56_0_program_software_identification_maxSubIndex 0
+        #define OD_1F56_1_program_software_identification_id_1      1
 
-/*1A05 */
-        #define OD_1A05_TPDOMappingParameter                        0x1A05
+/*1F57 */
+        #define OD_1F57_flash_status_identification                 0x1F57
 
-        #define OD_1A05_0_TPDOMappingParameter_maxSubIndex          0
-        #define OD_1A05_1_TPDOMappingParameter_mapping_object_1     1
-        #define OD_1A05_2_TPDOMappingParameter_mapping_object_2     2
-        #define OD_1A05_3_TPDOMappingParameter_mapping_object_3     3
-        #define OD_1A05_4_TPDOMappingParameter_mapping_object_4     4
-        #define OD_1A05_5_TPDOMappingParameter_mapping_object_5     5
-        #define OD_1A05_6_TPDOMappingParameter_mapping_object_6     6
-        #define OD_1A05_7_TPDOMappingParameter_mapping_object_7     7
-        #define OD_1A05_8_TPDOMappingParameter_mapping_object_8     8
-
-/*1A06 */
-        #define OD_1A06_TPDOMappingParameter                        0x1A06
-
-        #define OD_1A06_0_TPDOMappingParameter_maxSubIndex          0
-        #define OD_1A06_1_TPDOMappingParameter_mapping_object_1     1
-        #define OD_1A06_2_TPDOMappingParameter_mapping_object_2     2
-        #define OD_1A06_3_TPDOMappingParameter_mapping_object_3     3
-        #define OD_1A06_4_TPDOMappingParameter_mapping_object_4     4
-        #define OD_1A06_5_TPDOMappingParameter_mapping_object_5     5
-        #define OD_1A06_6_TPDOMappingParameter_mapping_object_6     6
-        #define OD_1A06_7_TPDOMappingParameter_mapping_object_7     7
-        #define OD_1A06_8_TPDOMappingParameter_mapping_object_8     8
-
-/*1A07 */
-        #define OD_1A07_TPDOMappingParameter                        0x1A07
-
-        #define OD_1A07_0_TPDOMappingParameter_maxSubIndex          0
-        #define OD_1A07_1_TPDOMappingParameter_mapping_object_1     1
-        #define OD_1A07_2_TPDOMappingParameter_mapping_object_2     2
-        #define OD_1A07_3_TPDOMappingParameter_mapping_object_3     3
-        #define OD_1A07_4_TPDOMappingParameter_mapping_object_4     4
-        #define OD_1A07_5_TPDOMappingParameter_mapping_object_5     5
-        #define OD_1A07_6_TPDOMappingParameter_mapping_object_6     6
-        #define OD_1A07_7_TPDOMappingParameter_mapping_object_7     7
-        #define OD_1A07_8_TPDOMappingParameter_mapping_object_8     8
-
-/*1A08 */
-        #define OD_1A08_TPDOMappingParameter                        0x1A08
-
-        #define OD_1A08_0_TPDOMappingParameter_maxSubIndex          0
-        #define OD_1A08_1_TPDOMappingParameter_mapping_object_1     1
-        #define OD_1A08_2_TPDOMappingParameter_mapping_object_2     2
-        #define OD_1A08_3_TPDOMappingParameter_mapping_object_3     3
-        #define OD_1A08_4_TPDOMappingParameter_mapping_object_4     4
-        #define OD_1A08_5_TPDOMappingParameter_mapping_object_5     5
-        #define OD_1A08_6_TPDOMappingParameter_mapping_object_6     6
-        #define OD_1A08_7_TPDOMappingParameter_mapping_object_7     7
-        #define OD_1A08_8_TPDOMappingParameter_mapping_object_8     8
-
-/*1A09 */
-        #define OD_1A09_TPDOMappingParameter                        0x1A09
-
-        #define OD_1A09_0_TPDOMappingParameter_maxSubIndex          0
-        #define OD_1A09_1_TPDOMappingParameter_mapping_object_1     1
-        #define OD_1A09_2_TPDOMappingParameter_mapping_object_2     2
-        #define OD_1A09_3_TPDOMappingParameter_mapping_object_3     3
-        #define OD_1A09_4_TPDOMappingParameter_mapping_object_4     4
-        #define OD_1A09_5_TPDOMappingParameter_mapping_object_5     5
-        #define OD_1A09_6_TPDOMappingParameter_mapping_object_6     6
-        #define OD_1A09_7_TPDOMappingParameter_mapping_object_7     7
-        #define OD_1A09_8_TPDOMappingParameter_mapping_object_8     8
+        #define OD_1F57_0_flash_status_identification_maxSubIndex   0
+        #define OD_1F57_1_flash_status_identification_id_1          1
 
 /*1F80 */
         #define OD_1F80_NMTStartup                                  0x1F80
@@ -573,7 +365,6 @@
         #define OD_3002_0_versions_maxSubIndex                      0
         #define OD_3002_1_versions_hw_version                       1
         #define OD_3002_2_versions_configs_version                  2
-        #define OD_3002_3_versions_olaf_version                     3
         #define OD_3002_4_versions_fw_version                       4
 
 /*3003 */
@@ -589,75 +380,24 @@
         #define OD_3009_board_id                                    0x3009
 
 /*4000 */
-        #define OD_4000_gyroscope                                   0x4000
-
-        #define OD_4000_0_gyroscope_maxSubIndex                     0
-        #define OD_4000_1_gyroscope_pitch_rate                      1
-        #define OD_4000_2_gyroscope_yaw_rate                        2
-        #define OD_4000_3_gyroscope_roll_rate                       3
-        #define OD_4000_4_gyroscope_pitch_rate_raw                  4
-        #define OD_4000_5_gyroscope_yaw_rate_raw                    5
-        #define OD_4000_6_gyroscope_roll_rate_raw                   6
+        #define OD_4000_status                                      0x4000
 
 /*4001 */
-        #define OD_4001_accelerometer                               0x4001
+        #define OD_4001_powerup                                     0x4001
 
-        #define OD_4001_0_accelerometer_maxSubIndex                 0
-        #define OD_4001_1_accelerometer_x                           1
-        #define OD_4001_2_accelerometer_y                           2
-        #define OD_4001_3_accelerometer_z                           3
-        #define OD_4001_4_accelerometer_X_raw                       4
-        #define OD_4001_5_accelerometer_Y_raw                       5
-        #define OD_4001_6_accelerometer_Z_raw                       6
+        #define OD_4001_0_powerup_maxSubIndex                       0
+        #define OD_4001_1_powerup_enabled                           1
+        #define OD_4001_2_powerup_powerup_state                     2
+        #define OD_4001_3_powerup_ocxo_gpio_state                   3
+        #define OD_4001_4_powerup_ocxo_boot_timeout                 4
+        #define OD_4001_5_powerup_sep_gpio_state                    5
+        #define OD_4001_6_powerup_sep_boot_timeout                  6
+        #define OD_4001_7_powerup_pico_gpio_state                   7
+        #define OD_4001_8_powerup_pico_boot_timeout                 8
+        #define OD_4001_9_powerup_pico_boot_mode                    9
 
 /*4002 */
-        #define OD_4002_temperature                                 0x4002
-
-/*4003 */
-        #define OD_4003_pos_z_magnetometer_1                        0x4003
-
-        #define OD_4003_0_pos_z_magnetometer_1_maxSubIndex          0
-        #define OD_4003_1_pos_z_magnetometer_1_x                    1
-        #define OD_4003_2_pos_z_magnetometer_1_y                    2
-        #define OD_4003_3_pos_z_magnetometer_1_z                    3
-
-/*4004 */
-        #define OD_4004_pos_z_magnetometer_2                        0x4004
-
-        #define OD_4004_0_pos_z_magnetometer_2_maxSubIndex          0
-        #define OD_4004_1_pos_z_magnetometer_2_x                    1
-        #define OD_4004_2_pos_z_magnetometer_2_y                    2
-        #define OD_4004_3_pos_z_magnetometer_2_z                    3
-
-/*4005 */
-        #define OD_4005_min_z_magnetometer_1                        0x4005
-
-        #define OD_4005_0_min_z_magnetometer_1_maxSubIndex          0
-        #define OD_4005_1_min_z_magnetometer_1_x                    1
-        #define OD_4005_2_min_z_magnetometer_1_y                    2
-        #define OD_4005_3_min_z_magnetometer_1_z                    3
-
-/*4006 */
-        #define OD_4006_min_z_magnetometer_2                        0x4006
-
-        #define OD_4006_0_min_z_magnetometer_2_maxSubIndex          0
-        #define OD_4006_1_min_z_magnetometer_2_x                    1
-        #define OD_4006_2_min_z_magnetometer_2_y                    2
-        #define OD_4006_3_min_z_magnetometer_2_z                    3
-
-/*4007 */
-        #define OD_4007_magnetorquer                                0x4007
-
-        #define OD_4007_0_magnetorquer_maxSubIndex                  0
-        #define OD_4007_1_magnetorquer_current_x                    1
-        #define OD_4007_2_magnetorquer_current_y                    2
-        #define OD_4007_3_magnetorquer_current_z                    3
-        #define OD_4007_4_magnetorquer_current_x_setpoint           4
-        #define OD_4007_5_magnetorquer_current_y_setpoint           5
-        #define OD_4007_6_magnetorquer_current_z_setpoint           6
-        #define OD_4007_7_magnetorquer_pwm_x                        7
-        #define OD_4007_8_magnetorquer_pwm_y                        8
-        #define OD_4007_9_magnetorquer_pwm_z                        9
+        #define OD_4002_instrument_current                          0x4002
 
 /*******************************************************************************
    STRUCTURES FOR VARIABLES IN DIFFERENT MEMORY LOCATIONS
@@ -671,37 +411,45 @@ struct sCO_OD_RAM{
 /*1000      */ UNSIGNED32     device_type;
 /*1001      */ UNSIGNED8      errorRegister;
 /*1003      */ UNSIGNED32      preDefinedErrorField[8];
+/*1005      */ UNSIGNED32     COB_ID_SYNCMessage;
+/*1006      */ UNSIGNED32     communicationCyclePeriod;
+/*1007      */ UNSIGNED32     synchronousWindowLength;
 /*1014      */ UNSIGNED32     cob_id_emergency_message;
 /*1015      */ UNSIGNED16     inhibitTimeEMCY;
 /*1017      */ UNSIGNED16     producerHeartbeatTime;
 /*1018      */ OD_identity_t   identity;
 /*1019      */ UNSIGNED8      synchronousCounterOverflowValue;
 /*1200      */ OD_SDOServerParameter_t SDOServerParameter[1];
-
-// firmware update OD indexes:
-/*1F50      */ DOMAIN         program_data[1];
-/*1F51      */ UNSIGNED8      program_control[1];
-/*1F56      */ UNSIGNED32     program_software_id[1];
-/*1F57      */ UNSIGNED32     flash_status[1];
-// firmware update OD indexes.
-
+/*1F50      */ DOMAIN          program_data[1];
+/*1F51      */ UNSIGNED8       program_control[1];
+/*1F56      */ UNSIGNED32      program_software_identification[1];
+/*1F57      */ UNSIGNED32      flash_status_identification[1];
 /*1F80      */ UNSIGNED32     NMTStartup;
 /*2010      */ UNSIGNED64     scet;
 /*2011      */ UNSIGNED64     utc;
-/*2100      */ OCTET_STRING   errorStatusBits[32];
+/*2100      */ OCTET_STRING   errorStatusBits[10];
 /*3000      */ UNSIGNED8      satellite_id;
 /*3001      */ BOOLEAN        flight_mode;
 /*3002      */ OD_versions_t   versions;
 /*3003      */ OD_system_t     system;
 /*3009      */ UNSIGNED8      board_id;
-/*4000      */ OD_gyroscope_t  gyroscope;
-/*4001      */ OD_accelerometer_t accelerometer;
-/*4002      */ INTEGER8       temperature;
-/*4003      */ OD_pos_z_magnetometer_1_t pos_z_magnetometer_1;
-/*4004      */ OD_pos_z_magnetometer_2_t pos_z_magnetometer_2;
-/*4005      */ OD_min_z_magnetometer_1_t min_z_magnetometer_1;
-/*4006      */ OD_min_z_magnetometer_2_t min_z_magnetometer_2;
-/*4007      */ OD_magnetorquer_t magnetorquer;
+/*4000      */ UNSIGNED8      status;
+/*4001      */ OD_powerup_t    powerup;
+/*4002      */ UNSIGNED16     instrument_current;
+
+               UNSIGNED32     LastWord;
+};
+
+/***** Structure for PERSIST_COMM variables ********************************************/
+struct sCO_OD_PERSIST_COMM{
+               UNSIGNED32     FirstWord;
+
+/*1016      */ UNSIGNED32      consumerHeartbeatTime[1];
+/*1029      */ UNSIGNED8       errorBehavior[1];
+/*1400      */ OD_RPDOCommunicationParameter_t RPDOCommunicationParameter[1];
+/*1600      */ OD_RPDOMappingParameter_t RPDOMappingParameter[1];
+/*1800      */ OD_TPDOCommunicationParameter_t TPDOCommunicationParameter[2];
+/*1A00      */ OD_TPDOMappingParameter_t TPDOMappingParameter[2];
 
                UNSIGNED32     LastWord;
 };
@@ -722,28 +470,14 @@ struct sCO_OD_EEPROM{
                UNSIGNED32     LastWord;
 };
 
-/***** Structure for PERSIST_COMM variables ********************************************/
-struct sCO_OD_PERSIST_COMM{
-               UNSIGNED32     FirstWord;
-
-/*1016      */ UNSIGNED32      consumerHeartbeatTime[1];
-/*1029      */ UNSIGNED8       errorBehavior[1];
-/*1400      */ OD_RPDOCommunicationParameter_t RPDOCommunicationParameter[1];
-/*1600      */ OD_RPDOMappingParameter_t RPDOMappingParameter[1];
-/*1800      */ OD_TPDOCommunicationParameter_t TPDOCommunicationParameter[10];
-/*1A00      */ OD_TPDOMappingParameter_t TPDOMappingParameter[10];
-
-               UNSIGNED32     LastWord;
-};
-
 /***** Declaration of Object Dictionary variables *****************************/
 extern struct sCO_OD_RAM CO_OD_RAM;
+
+extern struct sCO_OD_PERSIST_COMM CO_OD_PERSIST_COMM;
 
 extern struct sCO_OD_ROM CO_OD_ROM;
 
 extern struct sCO_OD_EEPROM CO_OD_EEPROM;
-
-extern struct sCO_OD_PERSIST_COMM CO_OD_PERSIST_COMM;
 
 /*******************************************************************************
    ALIASES FOR OBJECT DICTIONARY VARIABLES
@@ -768,6 +502,18 @@ extern struct sCO_OD_PERSIST_COMM CO_OD_PERSIST_COMM;
         #define ODA_preDefinedErrorField_error_6                    5
         #define ODA_preDefinedErrorField_error_7                    6
         #define ODA_preDefinedErrorField_error_8                    7
+
+/*1005, Data Type: UNSIGNED32 */
+        #define OD_COB_ID_SYNCMessage_idx                           0x1005
+        #define OD_COB_ID_SYNCMessage                               CO_OD_RAM.COB_ID_SYNCMessage
+
+/*1006, Data Type: UNSIGNED32 */
+        #define OD_communicationCyclePeriod_idx                     0x1006
+        #define OD_communicationCyclePeriod                         CO_OD_RAM.communicationCyclePeriod
+
+/*1007, Data Type: UNSIGNED32 */
+        #define OD_synchronousWindowLength_idx                      0x1007
+        #define OD_synchronousWindowLength                          CO_OD_RAM.synchronousWindowLength
 
 /*1014, Data Type: UNSIGNED32 */
         #define OD_cob_id_emergency_message_idx                     0x1014
@@ -821,27 +567,29 @@ extern struct sCO_OD_PERSIST_COMM CO_OD_PERSIST_COMM;
         #define OD_TPDOMappingParameter_idx                         0x1A00
         #define OD_TPDOMappingParameter                             CO_OD_PERSIST_COMM.TPDOMappingParameter
 
-// firmware update OD indexes:
 /*1F50, Data Type: DOMAIN, Array[1] */
-#define OD_program_data                           CO_OD_RAM.program_data
-#define ODL_program_data_arrayLength              1
-#define ODA_program_data_programData              0
+        #define OD_program_data_idx                                 0x1F50
+        #define OD_program_data                                     CO_OD_RAM.program_data
+        #define ODL_program_data_arrayLength                        1
+        #define ODA_program_data_data_1                             0
 
 /*1F51, Data Type: UNSIGNED8, Array[1] */
-#define OD_program_control                        CO_OD_RAM.program_control
-#define ODL_program_control_arrayLength           1
-#define ODA_program_control_programControl        0
+        #define OD_program_control_idx                              0x1F51
+        #define OD_program_control                                  CO_OD_RAM.program_control
+        #define ODL_program_control_arrayLength                     1
+        #define ODA_program_control_control_1                       0
 
 /*1F56, Data Type: UNSIGNED32, Array[1] */
-#define OD_program_software_id                    CO_OD_RAM.program_software_id
-#define ODL_program_software_id_arrayLength       1
-#define ODA_program_software_id_programSoftwareIdentification 0
+        #define OD_program_software_identification_idx              0x1F56
+        #define OD_program_software_identification                  CO_OD_RAM.program_software_identification
+        #define ODL_program_software_identification_arrayLength     1
+        #define ODA_program_software_identification_id_1            0
 
 /*1F57, Data Type: UNSIGNED32, Array[1] */
-#define OD_flash_status                           CO_OD_RAM.flash_status
-#define ODL_flash_status_arrayLength              1
-#define ODA_flash_status_flashStatusIdentification 0
-// firmware update OD indexes.
+        #define OD_flash_status_identification_idx                  0x1F57
+        #define OD_flash_status_identification                      CO_OD_RAM.flash_status_identification
+        #define ODL_flash_status_identification_arrayLength         1
+        #define ODA_flash_status_identification_id_1                0
 
 /*1F80, Data Type: UNSIGNED32 */
         #define OD_NMTStartup_idx                                   0x1F80
@@ -858,7 +606,7 @@ extern struct sCO_OD_PERSIST_COMM CO_OD_PERSIST_COMM;
 /*2100, Data Type: OCTET_STRING */
         #define OD_errorStatusBits_idx                              0x2100
         #define OD_errorStatusBits                                  CO_OD_RAM.errorStatusBits
-        #define ODL_errorStatusBits_stringLength                    32
+        #define ODL_errorStatusBits_stringLength                    10
 
 /*3000, Data Type: UNSIGNED8 */
         #define OD_satellite_id_idx                                 0x3000
@@ -880,37 +628,17 @@ extern struct sCO_OD_PERSIST_COMM CO_OD_PERSIST_COMM;
         #define OD_board_id_idx                                     0x3009
         #define OD_board_id                                         CO_OD_RAM.board_id
 
-/*4000, Data Type: gyroscope_t */
-        #define OD_gyroscope_idx                                    0x4000
-        #define OD_gyroscope                                        CO_OD_RAM.gyroscope
+/*4000, Data Type: UNSIGNED8 */
+        #define OD_status_idx                                       0x4000
+        #define OD_status                                           CO_OD_RAM.status
 
-/*4001, Data Type: accelerometer_t */
-        #define OD_accelerometer_idx                                0x4001
-        #define OD_accelerometer                                    CO_OD_RAM.accelerometer
+/*4001, Data Type: powerup_t */
+        #define OD_powerup_idx                                      0x4001
+        #define OD_powerup                                          CO_OD_RAM.powerup
 
-/*4002, Data Type: INTEGER8 */
-        #define OD_temperature_idx                                  0x4002
-        #define OD_temperature                                      CO_OD_RAM.temperature
-
-/*4003, Data Type: pos_z_magnetometer_1_t */
-        #define OD_pos_z_magnetometer_1_idx                         0x4003
-        #define OD_pos_z_magnetometer_1                             CO_OD_RAM.pos_z_magnetometer_1
-
-/*4004, Data Type: pos_z_magnetometer_2_t */
-        #define OD_pos_z_magnetometer_2_idx                         0x4004
-        #define OD_pos_z_magnetometer_2                             CO_OD_RAM.pos_z_magnetometer_2
-
-/*4005, Data Type: min_z_magnetometer_1_t */
-        #define OD_min_z_magnetometer_1_idx                         0x4005
-        #define OD_min_z_magnetometer_1                             CO_OD_RAM.min_z_magnetometer_1
-
-/*4006, Data Type: min_z_magnetometer_2_t */
-        #define OD_min_z_magnetometer_2_idx                         0x4006
-        #define OD_min_z_magnetometer_2                             CO_OD_RAM.min_z_magnetometer_2
-
-/*4007, Data Type: magnetorquer_t */
-        #define OD_magnetorquer_idx                                 0x4007
-        #define OD_magnetorquer                                     CO_OD_RAM.magnetorquer
+/*4002, Data Type: UNSIGNED16 */
+        #define OD_instrument_current_idx                           0x4002
+        #define OD_instrument_current                               CO_OD_RAM.instrument_current
 
 #endif
 // clang-format on

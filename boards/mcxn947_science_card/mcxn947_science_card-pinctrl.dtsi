@@ -7,19 +7,18 @@
 #include <nxp/mcx/MCXN947VNL-pinctrl.h>
 
 &pinctrl {
-/* CDH_COMM */
 /* Pin 21/P2_7 (TX) Pin 16/P2_2 (RX) */
-/* Think this talks to  */
-	// pinmux_flexcomm9_lpuart: pinmux_flexcomm9_lpuart {
-	// 	group0 {
-	// 		pinmux = <FC9_P3_PIO2_2>,
-	// 			<FC9_P5_PIO2_7>;
-	// 		slew-rate = "fast";
-	// 		bias-pull-up;
-	// 		drive-strength = "low";
-	// 		input-enable;
-	// 	};
-	// };
+/* Talks to the instrument */
+	/* pinmux_flexcomm9_lpuart: pinmux_flexcomm9_lpuart {
+		group0 {
+			pinmux = <FC9_P0_PIO2_4>,
+				<FC9_P1_PIO2_3>;
+			slew-rate = "fast";
+			bias-pull-up;
+			drive-strength = "low";
+			input-enable;
+		};
+	}; */
 
 /* Pins 1 and 2, or P1_8 and P1_9 */
 /* UART connection to the backplane/debug connector. */
@@ -34,6 +33,19 @@
 		};
 	};
 
+/* Pins 35 and 36, or P4_0 and P4_1 */
+/* UART connection to the c3 (ccc). */
+	/* pinmux_flexcomm2_lpuart: pinmux_flexcomm2_lpuart {
+		group0 {
+			pinmux = <FC2_P0_PIO4_12>,
+				<FC2_P1_PIO4_13>;
+			slew-rate = "fast";
+			bias-pull-up;
+			drive-strength = "low";
+			input-enable;
+		};
+	}; */
+
 /* Pins number 3 and 4, or P1_10 and P1_11. */
 /* Connect to CAN2 on the backplane. CAN1 is unconnected. that might be an issue? */
 	pinmux_flexcan0: pinmux_flexcan0 { // Done.
@@ -46,6 +58,8 @@
 		};
 	};
 
+/* TP30 = PIO4_0  = ADC0_CH0 = MAX4211 Iout measurement */
+/* TP44 = PIO4_15 = ADC0_CH1 */
 	pinmux_lpadc0: pinmux_lpadc0 {
 		group0 {
 			pinmux = <ADC0_A0_PIO4_0>;
